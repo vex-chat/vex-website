@@ -85,7 +85,7 @@ function App() {
     }, []);
 
     if (release === null) {
-        return <span />
+        return <span />;
     }
 
     if (release?.assets) {
@@ -99,21 +99,18 @@ function App() {
                 <div className="container is-family-monospace site scale-up-center">
                     <h1 className="title">vex messenger</h1>
                     <h2 className="subtitle">encrypted group chat</h2>
-                    <div className="tags">
+                    <div className="field is-grouped is-grouped-multiline tag-group">
                         {release?.tag_name && (
-                            <div className="subtitle tag version-tag">
-                                {release.tag_name}
-                            </div>
-                        )}
-                        {release?.published_at && (
-                            <div className="subtitle tag released-at-tag">
-                                {new Date(
-                                    release.published_at
-                                ).toLocaleDateString()}
+                            <div className="control">
+                                <div className="tags has-addons">
+                                    <span className="tag is-dark">version</span>
+                                    <span className="tag is-info">
+                                        {release.tag_name}
+                                    </span>
+                                </div>
                             </div>
                         )}
                     </div>
-
                     <div className="columns is-mobile">
                         {release?.assets?.map((asset) => (
                             <div className="column" key={asset.id}>
