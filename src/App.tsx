@@ -1,24 +1,17 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="Aligner">
+      <div className="Aligner-item Aligner-item--top" />
+      <div className="Aligner-item">    <div className="container is-family-monospace site">
+          <h1 className="title">vex messenger</h1>
+          <h2 className="subtitle">encrypted group chat</h2>
+          <ul>
+            <li>windows</li>
+            <li>macOS</li>
+            <li>linux</li>
+          </ul>
+        </div></div>
+      <div className="Aligner-item Aligner-item--bottom" />
     </div>
   );
 }
