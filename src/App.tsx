@@ -31,6 +31,26 @@ const nameToExt = (name: string) => {
     return extension;
 };
 
+function sortAssets(list: AssetsEntity[]) {
+    const sorted = new Array(4);
+    for (const file of list) {
+        switch (nameToExt(file.name)) {
+            case "exe":
+                sorted[0] = file;
+                break;
+            case "dmg":
+                sorted[1] = file;
+                break;
+            case "deb":
+                sorted[2] = file;
+                break;
+            case "AppImage":
+                sorted[3] = file;
+        }
+    }
+    return sorted as AssetsEntity[];
+}
+
 export function FileIcon(props: { file: AssetsEntity }): JSX.Element {
     const extension = nameToExt(props.file.name);
 
@@ -63,6 +83,10 @@ function App() {
     useMemo(() => {
         getFiles();
     }, []);
+
+    if (release?.assets) {
+        release.assets = sortAssets(release.assets);
+    }
 
     return (
         <div className="Aligner">
