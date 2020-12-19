@@ -8,17 +8,7 @@ import { faFile } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ax from "axios";
 import { useMemo, useState } from "react";
-
-interface IFile {
-    name: string;
-    type: string;
-    mtime: string;
-    size: number;
-}
-
-const initialState: IFile[] = [];
-
-const versionRegEx = /\d.\d.\d/;
+import { AssetsEntity, IRelease } from "./Release";
 
 const getFileIcon = (extension: string) => {
     switch (extension) {
@@ -41,28 +31,30 @@ const nameToExt = (name: string) => {
     return extension;
 };
 
-export function FileIcon(props: { file: IFile }): JSX.Element {
+export function FileIcon(props: { file: AssetsEntity }): JSX.Element {
     const extension = nameToExt(props.file.name);
 
-    if (extension === "txt") {
-        return <span />;
-    }
-
     return (
-        <a href={"https://release.vex.chat/" + props.file.name}>
+        <a href={props.file.browser_download_url}>
             <div className="brand-icon">{getFileIcon(extension)}</div>
         </a>
     );
 }
 
+const initialState: IRelease | null = null;
+
 function App() {
-    const [files, setFiles] = useState(initialState);
+    const [release, setRelease] = useState(initialState);
 
     const getFiles = async () => {
         try {
-            const res = await ax.get("https://release.vex.chat/");
-            const files = res.data;
-            setFiles(files);
+            const res = await ax.get(
+                "https://api.github.com/repos/vex-chat/vex-desktop-releases/releases/latest"
+            );
+            const release = res.data;
+            setRelease(release);
+
+            // setFiles(files);
         } catch (err) {
             console.error(err);
         }
@@ -79,18 +71,25 @@ function App() {
                 <div className="container is-family-monospace site">
                     <h1 className="title">vex messenger</h1>
                     <h2 className="subtitle">encrypted group chat</h2>
-                    {files.length > 0 && (
-                        <div className="subtitle tag version-tag">
-                            v{files[0].name.match(versionRegEx)}
-                        </div>
-                    )}
+                    <div className="tags">
+                        {release?.tag_name && (
+                            <div className="subtitle tag version-tag">
+                                {release.tag_name}
+                            </div>
+                        )}
+                        {release?.published_at && (
+                            <div className="subtitle tag released-at-tag">
+                                {new Date(
+                                    release.published_at
+                                ).toLocaleDateString()}
+                            </div>
+                        )}
+                    </div>
+
                     <div className="columns is-mobile">
-                        {files.map((file: any) => (
-                            <div
-                                key={file.name}
-                                className="column is-narrow has-text-left"
-                            >
-                                <FileIcon file={file} />
+                        {release?.assets?.map((asset) => (
+                            <div className="column" key={asset.id}>
+                                <FileIcon file={asset} />
                             </div>
                         ))}
                     </div>
