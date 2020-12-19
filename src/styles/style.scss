@@ -20,3 +20,11 @@
     align-self: flex-end;
 }
   
+.brand-icon {
+    font-size: 52px;
+    color: $dark;
+}
+
+.brand-icon:hover {
+    color: lighten($dark, 5%)
+}
