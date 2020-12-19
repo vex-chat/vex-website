@@ -101,7 +101,7 @@ function App() {
                     <h2 className="subtitle">encrypted group chat</h2>
                     <div className="field is-grouped is-grouped-multiline tag-group">
                         {release?.tag_name && (
-                            <div className="control">
+                            <div className="control is-family-primary">
                                 <div className="tags has-addons">
                                     <span className="tag is-dark">version</span>
                                     <span className="tag is-info">
