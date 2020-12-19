@@ -113,7 +113,7 @@ function App() {
                     </div>
                     <div className="columns is-mobile">
                         {release?.assets?.map((asset) => (
-                            <div className="column" key={asset.id}>
+                            <div className="column is-narrow" key={asset.id}>
                                 <FileIcon file={asset} />
                             </div>
                         ))}
