@@ -7,7 +7,7 @@ import {
 import { faFile } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ax from "axios";
-import { useMemo, useState } from "react";
+import { useMemo, useState, version } from "react";
 
 interface IFile {
     name: string;
@@ -17,6 +17,8 @@ interface IFile {
 }
 
 const initialState: IFile[] = [];
+
+const versionRegEx = /\d.\d.\d/;
 
 const getFileIcon = (extension: string) => {
     switch (extension) {
@@ -75,9 +77,16 @@ function App() {
             <div className="Aligner-item Aligner-item--top" />
             <div className="Aligner-item">
                 <div className="container is-family-monospace site">
-                    <h1 className="title">vex messenger</h1>
+                    <h1 className="title">
+                        vex messenger{" "}
+                        {files.length > 0 && (
+                            <div className="tag version-tag">
+                                v{files[0].name.match(versionRegEx)}
+                            </div>
+                        )}
+                    </h1>
                     <h2 className="subtitle">encrypted group chat</h2>
-                    <div className="columns">
+                    <div className="columns is-mobile">
                         {files.map((file: any) => (
                             <div
                                 key={file.name}
