@@ -84,6 +84,10 @@ function App() {
         getFiles();
     }, []);
 
+    if (release === null) {
+        return <span />
+    }
+
     if (release?.assets) {
         release.assets = sortAssets(release.assets);
     }
@@ -92,7 +96,7 @@ function App() {
         <div className="Aligner">
             <div className="Aligner-item Aligner-item--top" />
             <div className="Aligner-item">
-                <div className="container is-family-monospace site">
+                <div className="container is-family-monospace site scale-up-center">
                     <h1 className="title">vex messenger</h1>
                     <h2 className="subtitle">encrypted group chat</h2>
                     <div className="tags">
