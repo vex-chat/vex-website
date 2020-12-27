@@ -76,7 +76,6 @@ function App() {
                 );
 
                 const release = res.data;
-                console.log("length", release?.assets?.length);
 
                 if (release?.assets?.length !== 5) {
                     window.location.href =
