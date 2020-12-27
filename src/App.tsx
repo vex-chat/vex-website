@@ -1,11 +1,12 @@
 import React from "react";
 import {
     faApple,
+    faGithub,
     faLinux,
     faUbuntu,
     faWindows,
 } from "@fortawesome/free-brands-svg-icons";
-import { faCheck, faFile, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faFile, faLock, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ax from "axios";
 import { useMemo, useState } from "react";
@@ -107,7 +108,7 @@ function App() {
             <div className="Aligner-item Aligner-item--top" />
             <div className="Aligner-item">
                 <div className="container is-family-monospace site scale-up-center">
-                    <h1 className="title has-text-centered">vex messenger</h1>
+                    <h1 className="title has-text-centered">vex messenger <span className="is-info tag">beta</span></h1>
                     <h2 className="subtitle has-text-centered">
                         encrypted group chat
                     </h2>
@@ -119,6 +120,7 @@ function App() {
                                 className="has-text-danger"
                             ></FontAwesomeIcon>
                         </span>
+                        &nbsp;
                         We don't collect your data
                     </p>
                     <p>
@@ -128,25 +130,26 @@ function App() {
                                 className="has-text-danger"
                             ></FontAwesomeIcon>
                         </span>
+                        &nbsp;
                         You don't need any info to sign up
                     </p>
                     <p>
                         <span className="icon">
                             <FontAwesomeIcon
-                                icon={faCheck}
-                                className="has-text-success"
+                                icon={faLock}
                             ></FontAwesomeIcon>
                         </span>
+                        &nbsp;
                         End to end encrypted
                     </p>
                     <p>
                         <span className="icon">
                             <FontAwesomeIcon
-                                icon={faCheck}
-                                className="has-text-success"
+                                icon={faGithub}
                             ></FontAwesomeIcon>
                         </span>
-                        Open source
+                        &nbsp;&nbsp;
+                       <a href="https://github.com/vex-chat" target="__blank">Open source</a>
                     </p>
                     <p>
                         <span className="icon">
@@ -155,6 +158,7 @@ function App() {
                                 className="has-text-success"
                             ></FontAwesomeIcon>
                         </span>
+                        &nbsp;
                         Based
                     </p>
                     <p>
@@ -164,6 +168,7 @@ function App() {
                                 className="has-text-success"
                             ></FontAwesomeIcon>
                         </span>
+                        &nbsp;
                         Redpilled
                     </p>
 
