@@ -69,7 +69,7 @@ function App() {
     const getFiles = async () => {
         try {
             const res = await ax.get(
-                "https://api.github.com/repos/vex-chat/vex-desktop-releases/releases/latest"
+                "https://api.github.com/repos/vex-chat/vex-desktop/releases/latest"
             );
             const release = res.data;
             setRelease(release);
