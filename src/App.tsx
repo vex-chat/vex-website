@@ -6,7 +6,12 @@ import {
     faUbuntu,
     faWindows,
 } from "@fortawesome/free-brands-svg-icons";
-import { faCheck, faFile, faLock, faTimes } from "@fortawesome/free-solid-svg-icons";
+import {
+    faCheck,
+    faFile,
+    faLock,
+    faTimes,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ax from "axios";
 import { useMemo, useState } from "react";
@@ -78,8 +83,9 @@ function App() {
                 const release = res.data;
 
                 if (release?.assets?.length !== 5) {
-                    window.location.href =
-                        "https://github.com/vex-chat/vex-desktop/releases";
+                    throw new Error(
+                        "Not enough release assets returned, maybe not done building a recent release."
+                    );
                 } else {
                     const release = res.data;
                     setRelease(release);
@@ -87,7 +93,9 @@ function App() {
 
                 // setFiles(files);
             } catch (err) {
-                console.error(err);
+                console.log("Forwarding to github releases page.");
+                window.location.href =
+                    "https://github.com/vex-chat/vex-desktop/releases";
             }
         };
 
@@ -107,7 +115,9 @@ function App() {
             <div className="Aligner-item Aligner-item--top" />
             <div className="Aligner-item">
                 <div className="container is-family-monospace site scale-up-center">
-                    <h1 className="title has-text-centered">vex messenger <span className="is-info tag">beta</span></h1>
+                    <h1 className="title has-text-centered">
+                        vex messenger <span className="is-info tag">beta</span>
+                    </h1>
                     <h2 className="subtitle has-text-centered">
                         encrypted group chat
                     </h2>
@@ -119,8 +129,7 @@ function App() {
                                 className="has-text-danger"
                             ></FontAwesomeIcon>
                         </span>
-                        &nbsp;
-                        We don't collect your data
+                        &nbsp; We don't collect your data
                     </p>
                     <p>
                         <span className="icon">
@@ -129,26 +138,22 @@ function App() {
                                 className="has-text-danger"
                             ></FontAwesomeIcon>
                         </span>
-                        &nbsp;
-                        You don't need any info to sign up
+                        &nbsp; You don't need any info to sign up
                     </p>
                     <p>
                         <span className="icon">
-                            <FontAwesomeIcon
-                                icon={faLock}
-                            ></FontAwesomeIcon>
+                            <FontAwesomeIcon icon={faLock}></FontAwesomeIcon>
                         </span>
-                        &nbsp;
-                        End to end encrypted
+                        &nbsp; End to end encrypted
                     </p>
                     <p>
                         <span className="icon">
-                            <FontAwesomeIcon
-                                icon={faGithub}
-                            ></FontAwesomeIcon>
+                            <FontAwesomeIcon icon={faGithub}></FontAwesomeIcon>
                         </span>
                         &nbsp;&nbsp;
-                       <a href="https://github.com/vex-chat" target="__blank">Open source</a>
+                        <a href="https://github.com/vex-chat" target="__blank">
+                            Open source
+                        </a>
                     </p>
                     <p>
                         <span className="icon">
@@ -157,8 +162,7 @@ function App() {
                                 className="has-text-success"
                             ></FontAwesomeIcon>
                         </span>
-                        &nbsp;
-                        Based
+                        &nbsp; Based
                     </p>
                     <p>
                         <span className="icon">
@@ -167,8 +171,7 @@ function App() {
                                 className="has-text-success"
                             ></FontAwesomeIcon>
                         </span>
-                        &nbsp;
-                        Redpilled
+                        &nbsp; Redpilled
                     </p>
 
                     <br />
