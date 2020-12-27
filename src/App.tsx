@@ -1,3 +1,5 @@
+
+import React from "react";
 import {
     faApple,
     faLinux,
@@ -104,7 +106,7 @@ function App() {
                             <div className="control is-family-primary">
                                 <div className="tags has-addons">
                                     <span className="tag is-dark">version</span>
-                                    <span className="tag is-info">
+                                    <span className="tag">
                                         {release.tag_name}
                                     </span>
                                 </div>
