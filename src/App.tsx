@@ -1,4 +1,3 @@
-
 import React from "react";
 import {
     faApple,
@@ -6,7 +5,7 @@ import {
     faUbuntu,
     faWindows,
 } from "@fortawesome/free-brands-svg-icons";
-import { faFile } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faFile, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ax from "axios";
 import { useMemo, useState } from "react";
@@ -68,21 +67,30 @@ const initialState: IRelease | null = null;
 function App() {
     const [release, setRelease] = useState(initialState);
 
-    const getFiles = async () => {
-        try {
-            const res = await ax.get(
-                "https://api.github.com/repos/vex-chat/vex-desktop/releases/latest"
-            );
-            const release = res.data;
-            setRelease(release);
-
-            // setFiles(files);
-        } catch (err) {
-            console.error(err);
-        }
-    };
-
     useMemo(() => {
+        const getFiles = async () => {
+            try {
+                const res = await ax.get(
+                    "https://api.github.com/repos/vex-chat/vex-desktop/releases/latest"
+                );
+
+                const release = res.data;
+                console.log("length", release?.assets?.length);
+
+                if (release?.assets?.length !== 5) {
+                    window.location.href =
+                        "https://github.com/vex-chat/vex-desktop/releases";
+                } else {
+                    const release = res.data;
+                    setRelease(release);
+                }
+
+                // setFiles(files);
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
         getFiles();
     }, []);
 
@@ -99,21 +107,68 @@ function App() {
             <div className="Aligner-item Aligner-item--top" />
             <div className="Aligner-item">
                 <div className="container is-family-monospace site scale-up-center">
-                    <h1 className="title">vex messenger</h1>
-                    <h2 className="subtitle">encrypted group chat</h2>
-                    <div className="field is-grouped is-grouped-multiline tag-group">
-                        {release?.tag_name && (
-                            <div className="control is-family-primary">
-                                <div className="tags has-addons">
-                                    <span className="tag is-dark">version</span>
-                                    <span className="tag">
-                                        {release.tag_name}
-                                    </span>
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                    <div className="columns is-mobile">
+                    <h1 className="title has-text-centered">vex messenger</h1>
+                    <h2 className="subtitle has-text-centered">
+                        encrypted group chat
+                    </h2>
+
+                    <p>
+                        <span className="icon">
+                            <FontAwesomeIcon
+                                icon={faTimes}
+                                className="has-text-danger"
+                            ></FontAwesomeIcon>
+                        </span>
+                        We don't collect your data
+                    </p>
+                    <p>
+                        <span className="icon">
+                            <FontAwesomeIcon
+                                icon={faTimes}
+                                className="has-text-danger"
+                            ></FontAwesomeIcon>
+                        </span>
+                        You don't need any info to sign up
+                    </p>
+                    <p>
+                        <span className="icon">
+                            <FontAwesomeIcon
+                                icon={faCheck}
+                                className="has-text-success"
+                            ></FontAwesomeIcon>
+                        </span>
+                        End to end encrypted
+                    </p>
+                    <p>
+                        <span className="icon">
+                            <FontAwesomeIcon
+                                icon={faCheck}
+                                className="has-text-success"
+                            ></FontAwesomeIcon>
+                        </span>
+                        Open source
+                    </p>
+                    <p>
+                        <span className="icon">
+                            <FontAwesomeIcon
+                                icon={faCheck}
+                                className="has-text-success"
+                            ></FontAwesomeIcon>
+                        </span>
+                        Based
+                    </p>
+                    <p>
+                        <span className="icon">
+                            <FontAwesomeIcon
+                                icon={faCheck}
+                                className="has-text-success"
+                            ></FontAwesomeIcon>
+                        </span>
+                        Redpilled
+                    </p>
+
+                    <br />
+                    <div className="columns is-mobile is-centered">
                         {release?.assets?.map((asset) => (
                             <div className="column is-narrow" key={asset.id}>
                                 <FileIcon file={asset} />
