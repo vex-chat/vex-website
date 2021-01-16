@@ -29,7 +29,7 @@ export function Home(): JSX.Element {
                     </div>
                 }
             />
-            <section className="has-background-light">
+            <section className="has-background-light section">
                 <div className="container">
                     <BulletPoints />
                 </div>
