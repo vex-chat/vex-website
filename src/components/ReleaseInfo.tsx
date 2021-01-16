@@ -10,15 +10,12 @@ import {
     faBalanceScale,
     faCheck,
     faFile,
-    faGavel,
     faLock,
-    faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ax from "axios";
 import { useMemo, useState } from "react";
 import { AssetsEntity, IRelease } from "../Release";
-import { Hero } from "./Hero";
 
 const getFileIcon = (extension: string) => {
     switch (extension) {
@@ -82,9 +79,7 @@ export function ReleaseLinks() {
                 const res = await ax.get(
                     "https://api.github.com/repos/vex-chat/vex-desktop/releases"
                 );
-
                 const releases = res.data;
-                console.log(releases);
 
                 for (const release of releases) {
                     if (releases[0].assets.length === 5) {
@@ -93,9 +88,7 @@ export function ReleaseLinks() {
                     }
                 }
             } catch (err) {
-                console.log("Forwarding to github releases page.");
-                window.location.href =
-                    "https://github.com/vex-chat/vex-desktop/releases";
+                console.warn("Fetch failed.");
             }
         };
 
@@ -103,7 +96,25 @@ export function ReleaseLinks() {
     }, []);
 
     if (!release || !release.assets) {
-        return <span />;
+        return (
+            <span>
+                <div className="container has-text-centered">
+                    <h1 className="title is-family-monospace">vex desktop</h1>
+                    <div className="columns is-mobile is-centered">
+                        <div className="column is-narrow brand-link">
+                            <a
+                                href="https://github.com/vex-chat/vex-desktop/releases"
+                                className="has-text-white"
+                                rel="noreferrer"
+                                target="_blank"
+                            >
+                                Click here to go to download page
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </span>
+        );
     }
 
     return (
