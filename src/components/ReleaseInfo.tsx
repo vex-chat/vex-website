@@ -72,6 +72,7 @@ const initialState: IRelease | null = null;
 
 export function ReleaseLinks() {
     const [release, setRelease] = useState(initialState);
+    const [failed, setFailed] = useState(false);
 
     useMemo(() => {
         const getFiles = async () => {
@@ -80,13 +81,8 @@ export function ReleaseLinks() {
                     "https://api.github.com/repos/vex-chat/vex-desktop/releases"
                 );
                 const releases = res.data;
-
-                for (const release of releases) {
-                    if (releases[0].assets.length === 5) {
-                        setRelease(release);
-                        break;
-                    }
-                }
+                setRelease(releases[0]);
+                console.log(release);
             } catch (err) {
                 console.warn("Fetch failed.");
             }
@@ -95,7 +91,7 @@ export function ReleaseLinks() {
         getFiles();
     }, []);
 
-    if (!release || !release.assets) {
+    if (failed) {
         return (
             <span>
                 <div className="container has-text-centered">
@@ -119,9 +115,9 @@ export function ReleaseLinks() {
 
     return (
         <div className="container has-text-centered">
-            <h1 className="title">vex desktop {release.tag_name}</h1>
+            <h1 className="title">{release && "vex desktop"} {release?.tag_name}</h1>
             <div className="columns is-mobile is-centered">
-                {sortAssets(release.assets).map((asset) => (
+                {sortAssets(release?.assets || []).map((asset) => (
                     <div className="column is-narrow brand-link" key={asset.id}>
                         <FileIcon file={asset} />
                     </div>
