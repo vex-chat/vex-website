@@ -59,6 +59,14 @@ $theme_shadow: inset 0 0 10px;
     padding-left: 20px;
 }
 
+.copy-text {
+    padding-bottom: 5px;
+}
+
 .brand-link {
     color: $white !important;
+}
+
+.input-wrapper {
+    max-width: 420px;
 }

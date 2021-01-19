@@ -7,7 +7,7 @@ type Props = {
     className?: string;
     size?: number;
     hash: number;
-}; 
+};
 
 type State = {
     src: string;

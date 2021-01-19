@@ -1,11 +1,14 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import axios from "axios";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Switch, Route, BrowserRouter } from "react-router-dom";
 import { Footer } from "./components/Footer";
 import { Hero } from "./components/Hero";
 import { Download } from "./views/Download";
 import { Home } from "./views/Home";
 import { Avatar } from "./components/Avatar";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCopy } from "@fortawesome/free-solid-svg-icons";
 
 export interface IServer {
     serverID: string;
@@ -44,14 +47,18 @@ export function Router(): JSX.Element {
 }
 
 export function InvitePage(props: { match: any }): JSX.Element {
-    const [serverDetails, setServerDetails] = useState(null as IServer | null)
-    const [inviteDetails, setInviteDetails] = useState(null as IInvite | null)
-    const [inviterDetails, setInviterDetails] = useState(null as IUser | null)
+    const [serverDetails, setServerDetails] = useState(null as IServer | null);
+    const [inviteDetails, setInviteDetails] = useState(null as IInvite | null);
+    const [inviterDetails, setInviterDetails] = useState(null as IUser | null);
     const [expired, setExpired] = useState(false);
     const [fetching, setFetching] = useState(true);
+    const ref = useRef<HTMLInputElement>(null);
+    const [copied, setCopied] = useState("");
 
     useMemo(async () => {
-        const inviteRes = await axios.put("https://api.vex.chat/invite/"+props.match.params.id)
+        const inviteRes = await axios.put(
+            "https://api.vex.chat/invite/" + props.match.params.id
+        );
         setInviteDetails(inviteRes.data);
 
         if (new Date(inviteRes.data.expiration).getTime() < Date.now()) {
@@ -60,51 +67,105 @@ export function InvitePage(props: { match: any }): JSX.Element {
             return;
         }
 
-        const inviterRes = await axios.get("https://api.vex.chat/user/"+inviteRes.data.owner);
+        const inviterRes = await axios.get(
+            "https://api.vex.chat/user/" + inviteRes.data.owner
+        );
         setInviterDetails(inviterRes.data);
 
-        const serverRes = await axios.get("https://api.vex.chat/server/"+inviteRes.data.serverID);
+        const serverRes = await axios.get(
+            "https://api.vex.chat/server/" + inviteRes.data.serverID
+        );
         setServerDetails(serverRes.data);
         setFetching(false);
-    }, [props.match.params.id])
+    }, [props.match.params.id]);
 
     if (fetching) {
-        return <div className="view">
-        <Hero content={<span />} 
-        />
-        <Footer />
-    </div>
+        return (
+            <div className="view">
+                <Hero content={<span />} />
+                <Footer />
+            </div>
+        );
     }
 
     if (expired) {
-        return <div className="view">
-        <Hero content={
-            <div>
-                <h1 className="title">Uh oh, that invite's expired.</h1>
-                <p>Ask your friend for a new one.</p>
-            </div>} 
-        />
-        <Footer />
-    </div>
+        return (
+            <div className="view">
+                <Hero
+                    content={
+                        <div>
+                            <h1 className="title">
+                                Uh oh, that invite's expired.
+                            </h1>
+                            <p>Ask your friend for a new one.</p>
+                        </div>
+                    }
+                />
+                <Footer />
+            </div>
+        );
     }
 
     return (
         <div className="view">
-            <Hero content={
-                <div>
-                    <h1 className="title">Lucky you, you're invited.</h1>
-
-                    <div className="columns">
-                        <div className="column is-narrow">
-                            {inviterDetails && <Avatar hash={Date.now()} user={inviterDetails} />}
+            <Hero
+                content={
+                    <div>
+                        <h1 className="title">Lucky you, you're invited.</h1>
+                        <div className="columns">
+                            <div className="column is-narrow">
+                                {inviterDetails && (
+                                    <Avatar
+                                        hash={Date.now()}
+                                        user={inviterDetails}
+                                    />
+                                )}
+                            </div>
+                            <div className="column is-narrow">
+                                {inviterDetails && inviterDetails.username} has
+                                invited you to{" "}
+                                <strong className="has-text-white">
+                                    {serverDetails?.name || ""}
+                                </strong>
+                            </div>
                         </div>
-                        <div className="column is-narrow">
-                            {inviterDetails && inviterDetails.username} has invited you to <strong className="has-text-white">{serverDetails?.name || ""}</strong>
+                        <button
+                            className="button"
+                            onClick={() => {
+                                window.open("vex://" + inviteDetails?.inviteID);
+                            }}
+                        >
+                            Join
+                        </button>
+                        <br />
+                        <br />
+
+                        <div className="input-wrapper">
+                        <label className="help copy-text has-text-white has-text-weight-bold">Or, copy this invite code / url into your client. <span className="has-text-grey">{copied}</span></label>
+                            <div className="field has-addons">
+                                <p className="control" onClick={(event) => {
+                                            console.log(inviteDetails?.inviteID)
+                                            ref.current?.select();
+                                            setCopied("Copied!");
+                                            document.execCommand("copy");
+                                            setTimeout(() => {setCopied("")}, 1500);
+                                        }}>
+                                    <a className="button is-light">
+                                        <FontAwesomeIcon icon={faCopy}  />
+                                    </a>
+                                </p>
+                                <p className="control is-expanded">
+                                    <input
+                                        ref={ref}
+                                        readOnly
+                                        className="input"
+                                        value={inviteDetails?.inviteID || ""}
+                                    />
+                                </p>
+                            </div>
                         </div>
                     </div>
-
-                    <button className="button" onClick={() => {window.open("vex://"+inviteDetails?.inviteID)}}>Join</button>
-                </div>} 
+                }
             />
             <Footer />
         </div>
