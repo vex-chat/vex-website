@@ -81,8 +81,17 @@ export function ReleaseLinks() {
                     "https://api.github.com/repos/vex-chat/vex-desktop/releases"
                 );
                 const releases = res.data;
-                setRelease(releases[0]);
-                console.log(release);
+                let found = false;
+                for (const release of releases) {
+                    if (release.assets.length === 9) {
+                        setRelease(release);
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    setFailed(true);
+                }
             } catch (err) {
                 console.warn("Fetch failed.");
             }
@@ -115,7 +124,9 @@ export function ReleaseLinks() {
 
     return (
         <div className="container has-text-centered">
-            <h1 className="title">{release && "vex desktop"} {release?.tag_name}</h1>
+            <h1 className="title">
+                {release && "vex desktop"} {release?.tag_name}
+            </h1>
             <div className="columns is-mobile is-centered">
                 {sortAssets(release?.assets || []).map((asset) => (
                     <div className="column is-narrow brand-link" key={asset.id}>
@@ -129,7 +140,7 @@ export function ReleaseLinks() {
 
 export function BulletPoints(): JSX.Element {
     return (
-        <div className="panel-wrapper">
+        <div className="panel-wrapper container">
             <p>
                 <span className="icon">
                     <FontAwesomeIcon
