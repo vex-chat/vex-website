@@ -1,8 +1,3 @@
-import {
-    faChevronDown,
-    faLongArrowAltRight,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { Fragment, useState } from "react";
 import logo from "../assets/icon.svg";
 

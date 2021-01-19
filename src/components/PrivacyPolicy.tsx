@@ -3,7 +3,6 @@ import { useMemo, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { Footer } from "./Footer";
 import { Hero } from "./Hero";
-import { heading } from "./renderers";
 
 const PRIVACY_POLICY_URL =
     "https://raw.githubusercontent.com/vex-chat/privacy-policy/main/PrivacyPolicy.md";
@@ -47,19 +46,13 @@ export function PrivacyPolicy(): JSX.Element {
                 <div className="container">
                     <div className="columns">
                         <div className="column has-text-justified is-half">
+                            {(commitHistory && commitHistory[0]) && <Commit commit={commitHistory[0]} showLastUpdated={true}  key={commitHistory[0].sha} />}
                             <ReactMarkdown renderers={{}}>
                                 {privacyPolicyMd}
                             </ReactMarkdown>
                             <h2>Update History</h2>
                             {commitHistory.map((commit) => (
-                                <p className="help no-pad">
-                                    Last updated on{" "}
-                                    {new Date(
-                                        commit.commit.author.date
-                                    ).toLocaleDateString()}
-                                    : {commit.commit.message}{" "}
-                                    <a href={commit.html_url}>view diff</a>
-                                </p>
+                                <Commit commit={commit} showLastUpdated={false} key={commit.sha} />
                             ))}
                             <a
                                 className="help"
@@ -74,4 +67,16 @@ export function PrivacyPolicy(): JSX.Element {
             <Footer />
         </div>
     );
+}
+
+
+function Commit(props: { commit: any, showLastUpdated: boolean }):JSX.Element {
+    return <p className="help no-pad">
+    {props.showLastUpdated && "Last updated on "}
+    {new Date(
+        props.commit.commit.author.date
+    ).toLocaleDateString()}
+    : {props.commit.commit.message}{" "}
+    <a href={props.commit.html_url}>view diff</a>
+</p>
 }
