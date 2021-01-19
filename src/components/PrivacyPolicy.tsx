@@ -1,5 +1,5 @@
 import ax from "axios";
-import { useMemo, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { Footer } from "./Footer";
 import { Hero } from "./Hero";
@@ -46,7 +46,7 @@ export function PrivacyPolicy(): JSX.Element {
                 <div className="container">
                     <div className="columns">
                         <div className="column has-text-justified is-half">
-                            {(commitHistory && commitHistory[0]) && <Commit commit={commitHistory[0]} showLastUpdated={true}  key={commitHistory[0].sha} />}
+                            {(commitHistory && commitHistory[0]) && <Fragment><Commit commit={commitHistory[0]} showLastUpdated={true}  key={commitHistory[0].sha} /><br /></Fragment>}
                             <ReactMarkdown renderers={{}}>
                                 {privacyPolicyMd}
                             </ReactMarkdown>
