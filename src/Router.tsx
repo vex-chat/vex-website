@@ -9,6 +9,7 @@ import { Home } from "./views/Home";
 import { Avatar } from "./components/Avatar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
+import { PrivacyPolicy } from "./components/PrivacyPolicy";
 
 export interface IServer {
     serverID: string;
@@ -37,6 +38,11 @@ export function Router(): JSX.Element {
             <Switch>
                 <Route exact path={"/"} render={() => <Home />} />
                 <Route exact path={"/download"} render={() => <Download />} />
+                <Route
+                    exact
+                    path={"/privacy-policy"}
+                    render={() => <PrivacyPolicy />}
+                />
                 <Route
                     path={"/invite/:id"}
                     render={({ match }) => <InvitePage match={match} />}
@@ -141,17 +147,26 @@ export function InvitePage(props: { match: any }): JSX.Element {
                         <br />
 
                         <div className="input-wrapper">
-                        <label className="help copy-text has-text-white has-text-weight-bold">Or, copy this invite code / url into your client. <span className="has-text-grey">{copied}</span></label>
+                            <label className="help copy-text has-text-white has-text-weight-bold">
+                                Or, copy this invite code / url into your
+                                client.{" "}
+                                <span className="has-text-grey">{copied}</span>
+                            </label>
                             <div className="field has-addons">
-                                <p className="control" onClick={(event) => {
-                                            console.log(inviteDetails?.inviteID)
-                                            ref.current?.select();
-                                            setCopied("Copied!");
-                                            document.execCommand("copy");
-                                            setTimeout(() => {setCopied("")}, 1500);
-                                        }}>
+                                <p
+                                    className="control"
+                                    onClick={(event) => {
+                                        console.log(inviteDetails?.inviteID);
+                                        ref.current?.select();
+                                        setCopied("Copied!");
+                                        document.execCommand("copy");
+                                        setTimeout(() => {
+                                            setCopied("");
+                                        }, 1500);
+                                    }}
+                                >
                                     <a className="button is-light">
-                                        <FontAwesomeIcon icon={faCopy}  />
+                                        <FontAwesomeIcon icon={faCopy} />
                                     </a>
                                 </p>
                                 <p className="control is-expanded">

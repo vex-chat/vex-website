@@ -19,6 +19,8 @@ $theme_base_color: #FFF;
 $theme_text_color: #0A0A0A;
 
 
+$text-padding: 0.75rem;
+
 @import "../../node_modules/css-vars/css-vars.scss";
 $css-vars-use-native: true;
 
@@ -62,6 +64,37 @@ $theme_shadow: inset 0 0 10px;
 .copy-text {
     padding-bottom: 5px;
 }
+
+h1 {
+    font-size: 2.5rem;
+    text-emphasis: bold;
+    padding-bottom: $text-padding;
+}
+
+h2 {
+    font-size: 1.5rem;
+    padding-bottom: $text-padding;
+}
+
+h3 {
+    font-size: 1.25rem;
+    padding-bottom: $text-padding;
+}
+
+p {
+    padding-bottom: $text-padding;
+}
+
+ul {
+    text-decoration: dashed;
+    list-style-type: disc;
+    padding-bottom: $text-padding;
+}
+
+.no-pad {
+    padding: 0;
+}
+
 
 .brand-link {
     color: $white !important;

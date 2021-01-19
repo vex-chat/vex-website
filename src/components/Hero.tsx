@@ -37,9 +37,9 @@ export function Hero(props: { content: JSX.Element }): JSX.Element {
                         className={`navbar-menu ${menuOpen ? "is-active" : ""}`}
                     >
                         <div className="navbar-end">
-                            {/* <a className="navbar-item" href="#gallery">
+                            <a className="navbar-item" href="/privacy-policy">
                                 Privacy Policy
-                            </a> */}
+                            </a>
                             <span className="navbar-item">
                                 <a className="button is-link" href="/download">
                                     <span>Download</span>
