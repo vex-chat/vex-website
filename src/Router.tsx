@@ -9,7 +9,7 @@ import { Home } from "./views/Home";
 import { Avatar } from "./components/Avatar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
-import { PrivacyPolicy } from "./components/PrivacyPolicy";
+import { PrivacyPolicy } from "./views/PrivacyPolicy";
 
 export interface IServer {
     serverID: string;
@@ -117,7 +117,7 @@ export function InvitePage(props: { match: any }): JSX.Element {
             <Hero
                 content={
                     <div>
-                        <h1 className="title">Lucky you, you're invited.</h1>
+                        <h1 className="title is-family-monospace">Lucky you, you're invited.</h1>
                         <div className="columns">
                             <div className="column is-narrow">
                                 {inviterDetails && (
@@ -130,7 +130,7 @@ export function InvitePage(props: { match: any }): JSX.Element {
                             <div className="column is-narrow">
                                 {inviterDetails && inviterDetails.username} has
                                 invited you to{" "}
-                                <strong className="has-text-white">
+                                <strong className="has-text-white is-family-monospace">
                                     {serverDetails?.name || ""}
                                 </strong>
                             </div>
@@ -138,7 +138,7 @@ export function InvitePage(props: { match: any }): JSX.Element {
                         <button
                             className="button"
                             onClick={() => {
-                                window.open("vex://" + inviteDetails?.inviteID);
+                                window.open("vex://" + inviteDetails?.inviteID, "_self");
                             }}
                         >
                             Join

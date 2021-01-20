@@ -1,8 +1,8 @@
 import ax from "axios";
 import { Fragment, useMemo, useState } from "react";
 import ReactMarkdown from "react-markdown";
-import { Footer } from "./Footer";
-import { Hero } from "./Hero";
+import { Footer } from "../components/Footer";
+import { Hero } from "../components/Hero";
 
 const PRIVACY_POLICY_URL =
     "https://raw.githubusercontent.com/vex-chat/privacy-policy/main/PrivacyPolicy.md";

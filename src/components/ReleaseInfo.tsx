@@ -104,7 +104,7 @@ export function ReleaseLinks() {
         return (
             <span>
                 <div className="container has-text-centered">
-                    <h1 className="title is-family-monospace">vex desktop</h1>
+                    <h1 className="title is-family-monospace ">vex desktop</h1>
                     <div className="columns is-mobile is-centered">
                         <div className="column is-narrow brand-link">
                             <a
@@ -124,7 +124,7 @@ export function ReleaseLinks() {
 
     return (
         <div className="container has-text-centered">
-            <h1 className="title">
+            <h1 className="title is-family-monospace">
                 {release && "vex desktop"} {release?.tag_name}
             </h1>
             <div className="columns is-mobile is-centered">
