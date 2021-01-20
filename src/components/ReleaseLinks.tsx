@@ -16,6 +16,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ax from "axios";
 import { useMemo, useState } from "react";
 import { AssetsEntity, IRelease } from "../Release";
+import { Link } from "react-router-dom";
 
 const getFileIcon = (extension: string) => {
     switch (extension) {

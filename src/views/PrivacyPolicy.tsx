@@ -45,13 +45,26 @@ export function PrivacyPolicy(): JSX.Element {
                 <div className="container">
                     <div className="columns">
                         <div className="column has-text-justified is-half">
-                            {(commitHistory && commitHistory[0]) && <Fragment><Commit commit={commitHistory[0]} showLastUpdated={true}  key={commitHistory[0].sha} /><br /></Fragment>}
+                            {commitHistory && commitHistory[0] && (
+                                <Fragment>
+                                    <Commit
+                                        commit={commitHistory[0]}
+                                        showLastUpdated={true}
+                                        key={commitHistory[0].sha}
+                                    />
+                                    <br />
+                                </Fragment>
+                            )}
                             <ReactMarkdown renderers={{}}>
                                 {privacyPolicyMd}
                             </ReactMarkdown>
                             <h2>Update History</h2>
                             {commitHistory.map((commit) => (
-                                <Commit commit={commit} showLastUpdated={false} key={commit.sha} />
+                                <Commit
+                                    commit={commit}
+                                    showLastUpdated={false}
+                                    key={commit.sha}
+                                />
                             ))}
                             <a
                                 className="help"
@@ -68,14 +81,13 @@ export function PrivacyPolicy(): JSX.Element {
     );
 }
 
-
-function Commit(props: { commit: any, showLastUpdated: boolean }):JSX.Element {
-    return <p className="help no-pad">
-    {props.showLastUpdated && "Last updated on "}
-    {new Date(
-        props.commit.commit.author.date
-    ).toLocaleDateString()}
-    : {props.commit.commit.message}{" "}
-    <a href={props.commit.html_url}>view diff</a>
-</p>
+function Commit(props: { commit: any; showLastUpdated: boolean }): JSX.Element {
+    return (
+        <p className="help no-pad">
+            {props.showLastUpdated && "Last updated on "}
+            {new Date(props.commit.commit.author.date).toLocaleDateString()}:{" "}
+            {props.commit.commit.message}{" "}
+            <a href={props.commit.html_url}>view diff</a>
+        </p>
+    );
 }

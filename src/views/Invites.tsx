@@ -5,7 +5,6 @@ import { IInvite, IServer, IUser } from "../Router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
 
-
 export function Invites(props: { match: any }): JSX.Element {
     const [serverDetails, setServerDetails] = useState(null as IServer | null);
     const [inviteDetails, setInviteDetails] = useState(null as IInvite | null);
@@ -71,7 +70,9 @@ export function Invites(props: { match: any }): JSX.Element {
             <Hero
                 content={
                     <div>
-                        <h1 className="title is-family-monospace">Lucky you, you're invited.</h1>
+                        <h1 className="title is-family-monospace">
+                            Lucky you, you're invited.
+                        </h1>
                         <div className="columns">
                             <div className="column is-narrow">
                                 {inviterDetails && (
@@ -92,7 +93,10 @@ export function Invites(props: { match: any }): JSX.Element {
                         <button
                             className="button"
                             onClick={() => {
-                                window.open("vex://" + inviteDetails?.inviteID, "_self");
+                                window.open(
+                                    "vex://" + inviteDetails?.inviteID,
+                                    "_self"
+                                );
                             }}
                         >
                             Join

@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from "react";
+import { Link } from "react-router-dom";
 import logo from "../assets/icon.svg";
 
 export function Hero(props: { content: JSX.Element }): JSX.Element {
@@ -9,10 +10,13 @@ export function Hero(props: { content: JSX.Element }): JSX.Element {
             <header className="navbar">
                 <div className="container">
                     <div className="navbar-brand">
-                        <a href="/" className="navbar-item">
+                        <Link
+                            to={"/"}
+                            className="logo-link navbar-item is-size-1 is-family-monospace"
+                        >
                             <img className="logo" src={logo} alt={"logo"} />
                             &nbsp;vex
-                        </a>
+                        </Link>
                         <span
                             className={`navbar-burger burger ${
                                 menuOpen ? "is-active" : ""
@@ -32,13 +36,13 @@ export function Hero(props: { content: JSX.Element }): JSX.Element {
                         className={`navbar-menu ${menuOpen ? "is-active" : ""}`}
                     >
                         <div className="navbar-end">
-                            <a className="navbar-item" href="/privacy-policy">
+                            <Link className="navbar-item" to="/privacy-policy">
                                 Privacy Policy
-                            </a>
+                            </Link>
                             <span className="navbar-item">
-                                <a className="button is-link" href="/download">
+                                <Link className="button is-link" to="/download">
                                     <span>Download</span>
-                                </a>
+                                </Link>
                             </span>
                         </div>
                     </div>

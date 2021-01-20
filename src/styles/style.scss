@@ -6,6 +6,8 @@ $green: darken(#20c20e, 7%);
 $yellow: #ffb600;
 $red: #d50037;
 
+$navbar-item-img-max-height: 4rem;
+
 // purple theme
 // $theme_base_color:  #280e34;
 // $theme_text_color: #fff;
@@ -35,10 +37,25 @@ $theme_color_2: lighten($theme_base_color, 15%);
 
 $theme_shadow: inset 0 0 10px;
 
+.logo {
+    width: 4rem;
+    height: auto;
+}
+
 .brand-icon {
     color: $white;
     font-size: 48px;
 }
+
+.logo-link {
+    color: $dark;
+}
+
+.logo-link:hover {
+    color: $dark;
+}
+
+
 
 .brand-icon:hover {
     color: $light;
