@@ -118,6 +118,7 @@ export function ReleaseLinks() {
                             </a>
                         </div>
                     </div>
+                    <a className="is-family-monospace" href="https://github.com/vex-chat/vex-desktop">source code</a>
                 </div>
             </span>
         );
