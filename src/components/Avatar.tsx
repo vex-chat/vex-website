@@ -1,6 +1,6 @@
 import { Component } from "react";
 import { IUser } from "../Router";
-import { strToIcon } from "../utils/strToIcon";
+import { strToIcon } from "../utils";
 
 type Props = {
     user: IUser;

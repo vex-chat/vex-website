@@ -1,8 +1,6 @@
 import { faLongArrowAltRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Footer } from "../components/Footer";
-import { Hero } from "../components/Hero";
-import { BulletPoints } from "../components/ReleaseInfo";
+import { Footer, Hero, BulletPoints } from "../components";
 
 export function Home(): JSX.Element {
     return (
