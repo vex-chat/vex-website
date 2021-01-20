@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import {
     faApple,
     faGithub,
@@ -130,11 +130,12 @@ export function ReleaseLinks() {
             </h1>
             <div className="columns is-mobile is-centered">
                 {sortAssets(release?.assets || []).map((asset) => (
-                    <div className="column is-narrow brand-link" key={asset.id}>
-                        <FileIcon file={asset} />
-                    </div>
+                        <div className="column is-narrow brand-link" key={asset.id} >
+                            <FileIcon file={asset} />
+                        </div>
                 ))}
             </div>
+            <a className="is-family-monospace" href="https://github.com/vex-chat/vex-desktop">source code</a>
         </div>
     );
 }
