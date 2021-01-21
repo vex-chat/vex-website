@@ -49,11 +49,9 @@ function sortAssets(list: AssetsEntity[]) {
             case "dmg":
                 sorted[1] = file;
                 break;
-            case "deb":
-                sorted[2] = file;
-                break;
             case "AppImage":
                 sorted[3] = file;
+                break;
         }
     }
     return sorted as AssetsEntity[];
@@ -84,7 +82,7 @@ export function ReleaseLinks() {
                 const releases = res.data;
                 let found = false;
                 for (const release of releases) {
-                    if (release.assets.length === 9) {
+                    if (release.assets.length === 11) {
                         setRelease(release);
                         found = true;
                         break;
@@ -100,6 +98,8 @@ export function ReleaseLinks() {
 
         getFiles();
     }, []);
+
+    console.log(release);
 
     if (failed) {
         return (
@@ -136,7 +136,9 @@ export function ReleaseLinks() {
                         </div>
                 ))}
             </div>
-            <a className="is-family-monospace" href="https://github.com/vex-chat/vex-desktop">source code</a>
+            <a className="is-family-monospace" target="_blank" href="https://github.com/vex-chat/vex-desktop">source code</a>
+            <br />
+            <a className="is-family-monospace" target="_blank" href={release?.html_url || "https://github.com/vex-chat/vex-desktop/releases"}>alternative downloads</a>
         </div>
     );
 }
