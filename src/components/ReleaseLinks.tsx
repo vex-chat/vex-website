@@ -82,7 +82,7 @@ export function ReleaseLinks() {
                 const releases = res.data;
                 let found = false;
                 for (const release of releases) {
-                    if (release.assets.length === 11) {
+                    if (release.assets.length === 12) {
                         setRelease(release);
                         found = true;
                         break;

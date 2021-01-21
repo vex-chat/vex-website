@@ -34,7 +34,7 @@
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
-        "deploy": "rm -rf ./live; cp -rp ./build ./live",
+        "deploy": "yarn build; rm -rf ./live; cp -rp ./build ./live",
         "prettier": "node ./node_modules/prettier/bin-prettier.js '**/*.{ts,tsx,json,md}' --tab-width 4 --trailing-comma es5 --ignore-path .gitignore  --arrow-parens always --write"
     },
     "eslintConfig": {
