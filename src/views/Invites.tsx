@@ -15,11 +15,22 @@ export function Invites(props: { match: any }): JSX.Element {
     const ref = useRef<HTMLInputElement>(null);
     const [copied, setCopied] = useState("");
 
+    const [missing, setMissing] = useState(false);
+
     useMemo(async () => {
-        const inviteRes = await ax.get(
-            "https://api.vex.chat/invite/" + props.match.params.id,
-            { responseType: "arraybuffer" }
-        );
+        let inviteRes;
+        try {
+            inviteRes = await ax.get(
+                "https://api.vex.chat/invite/" + props.match.params.id,
+                { responseType: "arraybuffer" }
+            );
+        } catch (err) {
+            console.log("Setting missing.");
+            setMissing(true);
+            setFetching(false);
+            return;
+        }
+
         const inviteDet = msgpack.decode(new Uint8Array(inviteRes.data));
         setInviteDetails(inviteDet);
 
@@ -60,6 +71,24 @@ export function Invites(props: { match: any }): JSX.Element {
                         <div>
                             <h1 className="title">
                                 Uh oh, that invite's expired.
+                            </h1>
+                            <p>Ask your friend for a new one.</p>
+                        </div>
+                    }
+                />
+                <Footer />
+            </div>
+        );
+    }
+
+    if (missing) {
+        return (
+            <div className="view">
+                <Hero
+                    content={
+                        <div>
+                            <h1 className="title">
+                                Uh oh, that invite couldn't be found.
                             </h1>
                             <p>Ask your friend for a new one.</p>
                         </div>

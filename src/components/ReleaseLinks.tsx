@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import {
     faApple,
     faGithub,
@@ -16,7 +16,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ax from "axios";
 import { useMemo, useState } from "react";
 import { AssetsEntity, IRelease } from "../Release";
-import { Link } from "react-router-dom";
 
 const getFileIcon = (extension: string) => {
     switch (extension) {
@@ -144,6 +143,7 @@ export function ReleaseLinks() {
             <a
                 className="is-family-monospace"
                 target="_blank"
+                rel="noreferrer"
                 href="https://github.com/vex-chat/vex-desktop"
             >
                 source code
@@ -152,6 +152,7 @@ export function ReleaseLinks() {
             <a
                 className="is-family-monospace"
                 target="_blank"
+                rel="noreferrer"
                 href={
                     release?.html_url ||
                     "https://github.com/vex-chat/vex-desktop/releases"
