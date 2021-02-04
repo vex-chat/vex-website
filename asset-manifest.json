@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/vex-website/static/css/main.491f091d.chunk.css",
+    "main.js": "/vex-website/static/js/main.e3feab8d.chunk.js",
+    "main.js.map": "/vex-website/static/js/main.e3feab8d.chunk.js.map",
+    "runtime-main.js": "/vex-website/static/js/runtime-main.de811425.js",
+    "runtime-main.js.map": "/vex-website/static/js/runtime-main.de811425.js.map",
+    "static/css/2.a0572437.chunk.css": "/vex-website/static/css/2.a0572437.chunk.css",
+    "static/js/2.f0e9ffc6.chunk.js": "/vex-website/static/js/2.f0e9ffc6.chunk.js",
+    "static/js/2.f0e9ffc6.chunk.js.map": "/vex-website/static/js/2.f0e9ffc6.chunk.js.map",
+    "static/js/3.fb5103c6.chunk.js": "/vex-website/static/js/3.fb5103c6.chunk.js",
+    "static/js/3.fb5103c6.chunk.js.map": "/vex-website/static/js/3.fb5103c6.chunk.js.map",
+    "index.html": "/vex-website/index.html",
+    "static/css/2.a0572437.chunk.css.map": "/vex-website/static/css/2.a0572437.chunk.css.map",
+    "static/css/main.491f091d.chunk.css.map": "/vex-website/static/css/main.491f091d.chunk.css.map",
+    "static/js/2.f0e9ffc6.chunk.js.LICENSE.txt": "/vex-website/static/js/2.f0e9ffc6.chunk.js.LICENSE.txt",
+    "static/media/icon.f874b7cf.svg": "/vex-website/static/media/icon.f874b7cf.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.de811425.js",
+    "static/css/2.a0572437.chunk.css",
+    "static/js/2.f0e9ffc6.chunk.js",
+    "static/css/main.491f091d.chunk.css",
+    "static/js/main.e3feab8d.chunk.js"
+  ]
+}
