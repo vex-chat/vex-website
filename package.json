@@ -2,6 +2,7 @@
     "name": "vex-website",
     "version": "0.1.0",
     "private": true,
+    "homepage": "http://vex-chat.github.io/vex-website",
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^1.2.32",
         "@fortawesome/free-brands-svg-icons": "^5.15.1",
@@ -35,7 +36,8 @@
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
-        "deploy": "yarn build; rm -rf ./live; cp -rp ./build ./live",
+        "predeploy": "npm run build",
+        "deploy": "gh-pages -d build",
         "prettier": "node ./node_modules/prettier/bin-prettier.js '**/*.{ts,tsx,json,md}' --tab-width 4 --trailing-comma es5 --ignore-path .gitignore  --arrow-parens always --write"
     },
     "eslintConfig": {
@@ -58,6 +60,7 @@
     },
     "devDependencies": {
         "@types/msgpack-lite": "^0.1.7",
+        "gh-pages": "^3.1.0",
         "prettier": "^2.2.1"
     }
 }

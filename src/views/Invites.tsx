@@ -128,9 +128,9 @@ export function Invites(props: { match: any }): JSX.Element {
                                         }, 1500);
                                     }}
                                 >
-                                    <a className="button is-light">
+                                    <button className="button is-light">
                                         <FontAwesomeIcon icon={faCopy} />
-                                    </a>
+                                    </button>
                                 </p>
                                 <p className="control is-expanded">
                                     <input
