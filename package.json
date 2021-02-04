@@ -2,7 +2,6 @@
     "name": "vex-website",
     "version": "0.1.0",
     "private": true,
-    "homepage": "http://vex-chat.github.io/vex-website",
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^1.2.32",
         "@fortawesome/free-brands-svg-icons": "^5.15.1",
