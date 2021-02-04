@@ -118,7 +118,12 @@ export function ReleaseLinks() {
                             </a>
                         </div>
                     </div>
-                    <a className="is-family-monospace" href="https://github.com/vex-chat/vex-desktop">source code</a>
+                    <a
+                        className="is-family-monospace"
+                        href="https://github.com/vex-chat/vex-desktop"
+                    >
+                        source code
+                    </a>
                 </div>
             </span>
         );
@@ -131,14 +136,29 @@ export function ReleaseLinks() {
             </h1>
             <div className="columns is-mobile is-centered">
                 {sortAssets(release?.assets || []).map((asset) => (
-                        <div className="column is-narrow brand-link" key={asset.id} >
-                            <FileIcon file={asset} />
-                        </div>
+                    <div className="column is-narrow brand-link" key={asset.id}>
+                        <FileIcon file={asset} />
+                    </div>
                 ))}
             </div>
-            <a className="is-family-monospace" target="_blank" href="https://github.com/vex-chat/vex-desktop">source code</a>
+            <a
+                className="is-family-monospace"
+                target="_blank"
+                href="https://github.com/vex-chat/vex-desktop"
+            >
+                source code
+            </a>
             <br />
-            <a className="is-family-monospace" target="_blank" href={release?.html_url || "https://github.com/vex-chat/vex-desktop/releases"}>alternative downloads</a>
+            <a
+                className="is-family-monospace"
+                target="_blank"
+                href={
+                    release?.html_url ||
+                    "https://github.com/vex-chat/vex-desktop/releases"
+                }
+            >
+                alternative downloads
+            </a>
         </div>
     );
 }

@@ -85,8 +85,9 @@ function Commit(props: { commit: any; showLastUpdated: boolean }): JSX.Element {
     return (
         <p className="help no-pad">
             {props.showLastUpdated && "Last updated on "}
-            {new Date(props.commit.commit.author.date).toLocaleDateString()}:{" "}
-            {props.commit.commit.message}{" "}
+            {new Date(
+                props.commit.commit.author.date
+            ).toLocaleDateString()}: {props.commit.commit.message}{" "}
             <a href={props.commit.html_url}>view diff</a>
         </p>
     );

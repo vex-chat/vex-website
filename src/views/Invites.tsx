@@ -4,6 +4,7 @@ import { useMemo, useRef, useState } from "react";
 import { IInvite, IServer, IUser } from "../Router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
+import msgpack from "msgpack-lite";
 
 export function Invites(props: { match: any }): JSX.Element {
     const [serverDetails, setServerDetails] = useState(null as IServer | null);
@@ -15,26 +16,30 @@ export function Invites(props: { match: any }): JSX.Element {
     const [copied, setCopied] = useState("");
 
     useMemo(async () => {
-        const inviteRes = await ax.put(
-            "https://api.vex.chat/invite/" + props.match.params.id
+        const inviteRes = await ax.get(
+            "https://api.vex.chat/invite/" + props.match.params.id,
+            { responseType: "arraybuffer" }
         );
-        setInviteDetails(inviteRes.data);
+        const inviteDet = msgpack.decode(new Uint8Array(inviteRes.data));
+        setInviteDetails(inviteDet);
 
-        if (new Date(inviteRes.data.expiration).getTime() < Date.now()) {
+        if (new Date(inviteDet.expiration).getTime() < Date.now()) {
             setExpired(true);
             setFetching(false);
             return;
         }
 
         const inviterRes = await ax.get(
-            "https://api.vex.chat/user/" + inviteRes.data.owner
+            "https://api.vex.chat/user/" + inviteDet.owner,
+            { responseType: "arraybuffer" }
         );
-        setInviterDetails(inviterRes.data);
+        setInviterDetails(msgpack.decode(new Uint8Array(inviterRes.data)));
 
         const serverRes = await ax.get(
-            "https://api.vex.chat/server/" + inviteRes.data.serverID
+            "https://api.vex.chat/server/" + inviteDet.serverID,
+            { responseType: "arraybuffer" }
         );
-        setServerDetails(serverRes.data);
+        setServerDetails(msgpack.decode(new Uint8Array(serverRes.data)));
         setFetching(false);
     }, [props.match.params.id]);
 
