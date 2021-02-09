@@ -11,8 +11,11 @@ import { Anim1 } from "../components/anim1";
 import { Anim2 } from "../components/anim2";
 import { Anim3 } from "../components/anim3";
 import { Navbar } from "../components/Hero";
+import { useHistory } from "react-router-dom";
 
 export function Home() {
+    const history = useHistory();
+
     return (
         <div className="app container">
             <Navbar />
@@ -28,14 +31,19 @@ export function Home() {
                                 Secure. Private. Encrypted.
                             </h2>
                             <p className="subtitle is-4">
-                                Simple privacy and powerful encryption
-                                technology for communication. Real-time
-                                messaging with large groups of people or
-                                chatting with your friends without compromising
-                                your privacy.
+                                Simple privacy and powerful end to end
+                                encryption technology for communication.
+                                Real-time messaging with large groups of people
+                                or chatting with your friends without
+                                compromising your privacy.
                             </p>
-                            <button className="button is-medium is-primary is-rounded">
-                                Learn More
+                            <button
+                                onClick={() => {
+                                    history.push("/download");
+                                }}
+                                className="button is-medium is-primary is-rounded"
+                            >
+                                Download Now
                             </button>
                         </div>
                     </div>
@@ -62,10 +70,15 @@ export function Home() {
                             Vex Chat is a secure instant messaging platform for
                             social and commercial use. A private place to share
                             ideas that protects your identity and keeps you in
-                            control
+                            control.
                         </p>
-                        <button className="button is-medium is-primary is-rounded">
-                            Learn More
+                        <button
+                            onClick={() => {
+                                history.push("/download");
+                            }}
+                            className="button is-medium is-primary is-rounded"
+                        >
+                            Download Now
                         </button>
                     </div>
                 </div>
@@ -101,9 +114,9 @@ export function Home() {
                                 <div className="content">
                                     <h2 className="">Free of censorship</h2>
                                     <p className="subtitle">
-                                        We encrypt your messages and never see
-                                        them, so you can rest assured that your
-                                        conversations are truly safe
+                                        Your messages are end to end encrypted,
+                                        meaning we couldn't even read them if we
+                                        wanted to.
                                     </p>
                                 </div>
                             </div>
@@ -118,9 +131,9 @@ export function Home() {
                                 <div className="content">
                                     <h2 className="">No surveillance</h2>
                                     <p className="subtitle">
-                                        Vex is not created by an enterprise --
-                                        it's made by people from the ground up
-                                        with privacy in mind
+                                        We collect as little data as possible to
+                                        provide you with chat service. We don't
+                                        spy on you or collect data for profit.
                                     </p>
                                 </div>
                             </div>
