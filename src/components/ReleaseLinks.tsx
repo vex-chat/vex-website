@@ -104,12 +104,11 @@ export function ReleaseLinks() {
         return (
             <span>
                 <div className="container has-text-centered">
-                    <h1 className="title is-family-monospace ">vex desktop</h1>
+                    <h1 className="title">vex desktop</h1>
                     <div className="columns is-mobile is-centered">
                         <div className="column is-narrow brand-link">
                             <a
                                 href="https://github.com/vex-chat/vex-desktop/releases"
-                                className="has-text-white"
                                 rel="noreferrer"
                                 target="_blank"
                             >
@@ -117,10 +116,7 @@ export function ReleaseLinks() {
                             </a>
                         </div>
                     </div>
-                    <a
-                        className="is-family-monospace"
-                        href="https://github.com/vex-chat/vex-desktop"
-                    >
+                    <a href="https://github.com/vex-chat/vex-desktop">
                         source code
                     </a>
                 </div>
@@ -130,18 +126,17 @@ export function ReleaseLinks() {
 
     return (
         <div className="container has-text-centered">
-            <h1 className="title is-family-monospace">
+            <h1 className="title">
                 {release && "vex desktop"} {release?.tag_name}
             </h1>
             <div className="columns is-mobile is-centered">
                 {sortAssets(release?.assets || []).map((asset) => (
-                    <div className="column is-narrow brand-link" key={asset.id}>
+                    <div className="column is-narrow is-size-1" key={asset.id}>
                         <FileIcon file={asset} />
                     </div>
                 ))}
             </div>
             <a
-                className="is-family-monospace"
                 target="_blank"
                 rel="noreferrer"
                 href="https://github.com/vex-chat/vex-desktop"
@@ -150,7 +145,6 @@ export function ReleaseLinks() {
             </a>
             <br />
             <a
-                className="is-family-monospace"
                 target="_blank"
                 rel="noreferrer"
                 href={

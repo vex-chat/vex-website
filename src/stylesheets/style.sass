@@ -1,0 +1,396 @@
+////////////////////////////////////////////////////////////////
+//
+//    Import brand assets
+//
+////////////////////////////////////////////////////////////////
+
+@import "colors.sass"
+@import "fonts.sass"
+
+////////////////////////////////////////////////////////////////
+//
+//
+//   These are the default variables
+//   from which everything else is calculated.
+//
+////////////////////////////////////////////////////////////////
+
+
+// Brand colors
+$green: $vex-green
+$turquoise: $vex-aqua
+$cyan: $vex-blue
+$blue: $vex-blue
+$purple: $vex-purple
+$pink: $vex-pink
+$red: $vex-red
+$orange: $vex-orange
+$yellow: $vex-yellow
+$black: $vex-black-darkest
+$black-bis: $vex-black-dark
+$black-ter: $vex-black
+$grey-darker: $vex-black-light
+$grey-dark: $vex-black-lightest
+$grey: $vex-grey-dark
+$grey-light: $vex-grey
+$grey-lighter: $vex-grey-light
+$grey-lightest: $vex-grey-light
+$white-bis: $vex-white
+$white-ter: $vex-white
+$white: $vex-white-light
+
+// Override bulma variables
+$primary: $vex-purple
+$link: $turquoise
+$info: $blue
+$success: $green
+$warning: $yellow
+$danger: $red
+$dark: $grey-darker
+$text: $grey-dark
+
+
+// Typography
+
+$family-sans-serif: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif !default
+$family-monospace: monospace !default
+$render-mode: optimizeLegibility !default
+
+$size-1: 3rem !default
+$size-2: 2.5rem !default
+$size-3: 2rem !default
+$size-4: 1.5rem !default
+$size-5: 1.25rem !default
+$size-6: 1rem !default
+$size-7: 0.75rem !default
+
+$weight-light: 300 !default
+$weight-normal: 400 !default
+$weight-medium: 500 !default
+$weight-semibold: 600 !default
+$weight-bold: 700 !default
+
+// Spacing
+$block-spacing: 1.5rem !default
+
+// Responsiveness
+// The container horizontal gap, which acts as the offset for breakpoints
+$gap: 32px !default
+// 960, 1152, and 1344 have been chosen because they are divisible by both 12 and 16
+$tablet: 769px !default
+// 960px container + 4rem
+$desktop: 960px + (2 * $gap) !default
+// 1152px container + 4rem
+$widescreen: 1152px + (2 * $gap) !default
+$widescreen-enabled: true !default
+// 1344px container + 4rem
+$fullhd: 1344px + (2 * $gap) !default
+$fullhd-enabled: true !default
+
+// Miscellaneous
+$easing: ease-out !default
+$radius-small: 2px !default
+$radius: 4px !default
+$radius-large: 6px !default
+$radius-rounded: 290486px !default
+$speed: 86ms !default
+
+// Flags
+$variable-columns: true !default
+$rtl: false !default
+
+
+
+$family-sans-serif: $font-body
+
+
+////////////////////////////////////////////////////////////////
+//
+//  Here we're importing bulma.
+//
+////////////////////////////////////////////////////////////////
+
+$navbar-item-img-max-height: 4rem;
+
+@import "~bulma/bulma.sass"
+
+
+////////////////////////////////////////////////////////////////
+//
+//  We can add any CSS after this that we want.
+//
+////////////////////////////////////////////////////////////////
+
+.no-padding
+  margin: 0px !important
+
+.navbar-item:hover
+  color: $primary !important
+
+.navbar-item:focus
+  color: $vex-purple-dark !important
+
+.content
+  h1, h2, h3, h4, h5, h6, .title
+    font-family: $font-title
+    color: $vex-black
+
+a
+  color: $primary
+
+a:hover
+  color: $vex-purple-dark
+
+p 
+  font-family: $font-body
+
+button
+  text-transform: uppercase
+  margin: 0.5rem 0
+
+  .is-primary
+    background-color: $vex-purple
+
+  .is-secondary
+    background-color: $vex-black
+
+.section 
+  padding: 8rem 1.5rem
+
+.content 
+  z-index: 99
+
+#hero 
+
+  .content h2:not(:first-child)
+    margin-top: 1rem
+  
+  .animation-container 
+    width: 100%
+    height: 100%
+    display: flex
+    align-items: center
+    justify-content: center
+    z-index: 0
+
+  .card1,
+  .card2,
+  .card3,
+  .card4 
+    position: absolute
+    border-radius: 5px
+    background-size: contain
+    background-position: center center
+    background-repeat: no-repeat
+    will-change: transform
+
+  .card1 
+    width: 75vw
+    height: 75vw
+    max-width: 75ch
+    max-height: 75ch
+    background-image: url(../images/animation-1/animation-1-0.svg)
+
+  .card2 
+    width: 100ch
+    height: 100ch
+    background-image: url(../images/animation-1/animation-1-3.svg)
+
+  .card3 
+    width: 60ch
+    height: 60ch
+    background-image: url(../images/animation-1/animation-1-2.svg)
+
+  .card4 
+    width: 90ch
+    height: 90ch
+    background-image: url(../images/animation-1/animation-1-1.svg)
+
+  .animation-container
+    width: 100%
+    height: 100%
+    display: flex
+    align-items: center
+    justify-content: center
+    z-index: 0
+
+
+
+#about 
+
+  .showcase 
+    background-image: url(../images/blob-bg.svg)
+
+
+#features 
+
+  .media + .media 
+    margin-top: 2rem
+    padding-top: 2rem
+    border-top: none
+
+
+  .media-content 
+
+    &::before
+      content: ""
+      position: absolute
+      width: 20px
+      height: 20px
+      border-radius: 50%
+      margin-top: 122px
+      z-index: 99
+  
+    &::after
+      content: ""
+      background-color: $vex-grey-light
+      position: absolute    
+      width: 75%
+      height: 1px
+      margin-top: 2.25rem
+      z-index: 0
+
+  .media
+
+    &:nth-child(1) .media-content::before
+      background-color: $vex-aqua
+      
+    &:nth-child(2) .media-content::before
+      background-color: $vex-pink
+      
+    &:nth-child(3) .media-content::before
+      background-color: $vex-orange
+      
+  .animation-container 
+    width: 100%
+    height: 100%
+    display: flex
+    align-items: center
+    justify-content: flex-start
+    position: relative
+    z-index: 99
+
+  .card1,
+  .card2,
+  .card3,
+  .card4 
+    position: absolute
+    border-radius: 5px
+    background-size: contain
+    background-position: center center
+    background-repeat: no-repeat
+    will-change: transform
+
+  .card1 
+    width: 100vw
+    height: 100vw
+    max-width: 100ch
+    max-height: 100ch
+    background-image: url(../images/animation-3/animation-3-0.svg)
+
+  .card2 
+    width: 100ch
+    height: 100ch
+    background-image: url(../images/animation-3/animation-3-3.svg)
+
+  .card3 
+    width: 100ch
+    height: 100ch
+    background-image: url(../images/animation-3/animation-3-2.svg)
+
+  .card4 
+    width: 100ch
+    height: 100ch
+    background-image: url(../images/animation-3/animation-3-1.svg)
+
+
+
+
+#progress
+
+  .project-progress
+    
+    .title
+      margin-bottom: 0
+
+    .completion
+      display: flex
+      align-items: center
+      padding: 0.5rem
+      padding-left: 0
+
+      h3
+        margin-right: 10px
+
+    progress
+      margin: 1.5rem
+      margin-left: 0
+
+    nav 
+      padding: 0.5rem
+      padding-left: 0
+
+  .animation-container 
+    width: 100%
+    height: 100%
+    display: flex
+    align-items: center
+    justify-content: center
+    z-index: 0
+
+  .card1,
+  .card2,
+  .card3,
+  .card4,
+  .card5
+    position: absolute
+    border-radius: 5px
+    background-size: contain
+    background-position: center center
+    background-repeat: no-repeat
+    will-change: transform
+
+  .card1 
+    width: 75vw
+    height: 75vw
+    max-width: 75ch
+    max-height: 75ch
+    background-image: url(../images/animation-2/animation-2-0.svg)
+
+  .card2 
+    width: 75ch
+    height: 75ch
+    background-image: url(../images/animation-2/animation-2-4.svg)
+
+  .card3 
+    width: 75ch
+    height: 75ch
+    background-image: url(../images/animation-2/animation-2-3.svg)
+
+  .card4 
+    width: 75ch
+    height: 75ch
+    background-image: url(../images/animation-2/animation-2-2.svg)
+    
+  .card5 
+    width: 75ch
+    height: 75ch
+    background-image: url(../images/animation-2/animation-2-1.svg)
+
+  .animation-container
+    width: 100%
+    height: 100%
+    display: flex
+    align-items: center
+    justify-content: center
+    z-index: 0
+
+  progress::-moz-progress-bar,
+  progress::-webkit-progress-value
+    background: $vex-purple
+  progress
+    color: $vex-purple
+
+  .cta
+    display: flex
+    justify-content: center

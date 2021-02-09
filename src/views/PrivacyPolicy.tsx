@@ -32,9 +32,7 @@ export function PrivacyPolicy(): JSX.Element {
             <Hero
                 content={
                     <div className="content is-large  is-family-monospace">
-                        <h1 className="title has-text-white">
-                            privacy policy{" "}
-                        </h1>
+                        <h1 className="title">privacy policy </h1>
                         <h2 className="subtitle is-size-5">
                             we care about your privacy
                         </h2>

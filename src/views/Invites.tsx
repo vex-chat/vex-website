@@ -104,9 +104,7 @@ export function Invites(props: { match: any }): JSX.Element {
             <Hero
                 content={
                     <div>
-                        <h1 className="title is-family-monospace">
-                            Lucky you, you're invited.
-                        </h1>
+                        <h1 className="title">Lucky you, you're invited.</h1>
                         <div className="columns">
                             <div className="column is-narrow">
                                 {inviterDetails && (
@@ -119,9 +117,7 @@ export function Invites(props: { match: any }): JSX.Element {
                             <div className="column is-narrow">
                                 {inviterDetails && inviterDetails.username} has
                                 invited you to{" "}
-                                <strong className="has-text-white is-family-monospace">
-                                    {serverDetails?.name || ""}
-                                </strong>
+                                <strong>{serverDetails?.name || ""}</strong>
                             </div>
                         </div>
                         <button
@@ -139,7 +135,7 @@ export function Invites(props: { match: any }): JSX.Element {
                         <br />
 
                         <div className="input-wrapper">
-                            <label className="help copy-text has-text-white has-text-weight-bold">
+                            <label className="help copy-text has-text-weight-bold">
                                 Or, copy this invite code / url into your
                                 client.{" "}
                                 <span className="has-text-grey">{copied}</span>
@@ -157,7 +153,7 @@ export function Invites(props: { match: any }): JSX.Element {
                                         }, 1500);
                                     }}
                                 >
-                                    <button className="button is-light">
+                                    <button className="button no-padding is-light">
                                         <FontAwesomeIcon icon={faCopy} />
                                     </button>
                                 </p>
