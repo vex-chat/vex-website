@@ -16,6 +16,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ax from "axios";
 import { useEffect, useState } from "react";
 import { AssetsEntity, IRelease } from "../Release";
+import { GITHUB_ENDPOINTS, GITHUB_REPOS, GITHUB_WEB_URLS } from "./constants";
 
 const getFileIcon = (extension: string) => {
     switch (extension) {
@@ -76,7 +77,7 @@ export function ReleaseLinks() {
         const getFiles = async () => {
             try {
                 const res = await ax.get(
-                    "https://api.github.com/repos/vex-chat/vex-desktop/releases"
+                    GITHUB_ENDPOINTS.RELEASES(GITHUB_REPOS.VEX_DESKTOP)
                 );
                 const releases = res.data;
                 // Get the latest non-draft, non-prerelease release
@@ -116,7 +117,7 @@ export function ReleaseLinks() {
                     <div className="columns is-mobile is-centered">
                         <div className="column is-narrow brand-link">
                             <a
-                                href="https://github.com/vex-chat/vex-desktop/releases"
+                                href={GITHUB_WEB_URLS.VEX_DESKTOP_RELEASES}
                                 rel="noreferrer"
                                 target="_blank"
                             >
@@ -124,9 +125,7 @@ export function ReleaseLinks() {
                             </a>
                         </div>
                     </div>
-                    <a href="https://github.com/vex-chat/vex-desktop">
-                        source code
-                    </a>
+                    <a href={GITHUB_WEB_URLS.VEX_DESKTOP}>source code</a>
                 </div>
             </span>
         );
@@ -147,7 +146,7 @@ export function ReleaseLinks() {
             <a
                 target="_blank"
                 rel="noreferrer"
-                href="https://github.com/vex-chat/vex-desktop"
+                href={GITHUB_WEB_URLS.VEX_DESKTOP}
             >
                 source code
             </a>
@@ -155,10 +154,7 @@ export function ReleaseLinks() {
             <a
                 target="_blank"
                 rel="noreferrer"
-                href={
-                    release?.html_url ||
-                    "https://github.com/vex-chat/vex-desktop/releases"
-                }
+                href={release?.html_url || GITHUB_WEB_URLS.VEX_DESKTOP_RELEASES}
             >
                 alternative downloads
             </a>
@@ -203,7 +199,7 @@ export function BulletPoints(): JSX.Element {
                     <FontAwesomeIcon icon={faGithub}></FontAwesomeIcon>
                 </span>
                 &nbsp;&nbsp;
-                <a href="https://github.com/vex-chat" target="__blank">
+                <a href={GITHUB_WEB_URLS.VEX_CHAT_ORG} target="__blank">
                     Open source.
                 </a>{" "}
                 Feel free to lend a hand.

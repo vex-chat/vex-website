@@ -1,6 +1,7 @@
 import { Component } from "react";
 import { IUser } from "../Router";
 import { strToIcon } from "../utils";
+import { API_ENDPOINTS } from "./constants";
 
 type Props = {
     user: IUser;
@@ -18,14 +19,14 @@ export class Avatar extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            src: strToIcon(this.props.user.username), // "https://api.vex.chat/avatar/" + props.user.userID,
+            src: strToIcon(this.props.user.username),
             loaded: false,
         };
     }
 
     componentDidMount() {
         this.setState({
-            src: "https://api.vex.chat/avatar/" + this.props.user.userID,
+            src: API_ENDPOINTS.AVATAR(this.props.user.userID),
         });
     }
 

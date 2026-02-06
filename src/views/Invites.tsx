@@ -5,6 +5,7 @@ import { IInvite, IServer, IUser } from "../Router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
 import msgpack from "msgpack-lite";
+import { API_ENDPOINTS } from "../components/constants";
 
 export function Invites(props: { match: any }): JSX.Element {
     const [serverDetails, setServerDetails] = useState(null as IServer | null);
@@ -21,7 +22,7 @@ export function Invites(props: { match: any }): JSX.Element {
         let inviteRes;
         try {
             inviteRes = await ax.get(
-                "https://api.vex.chat/invite/" + props.match.params.id,
+                API_ENDPOINTS.INVITE(props.match.params.id),
                 { responseType: "arraybuffer" }
             );
         } catch (err) {
@@ -40,14 +41,13 @@ export function Invites(props: { match: any }): JSX.Element {
             return;
         }
 
-        const inviterRes = await ax.get(
-            "https://api.vex.chat/user/" + inviteDet.owner,
-            { responseType: "arraybuffer" }
-        );
+        const inviterRes = await ax.get(API_ENDPOINTS.USER(inviteDet.owner), {
+            responseType: "arraybuffer",
+        });
         setInviterDetails(msgpack.decode(new Uint8Array(inviterRes.data)));
 
         const serverRes = await ax.get(
-            "https://api.vex.chat/server/" + inviteDet.serverID,
+            API_ENDPOINTS.SERVER(inviteDet.serverID),
             { responseType: "arraybuffer" }
         );
         setServerDetails(msgpack.decode(new Uint8Array(serverRes.data)));

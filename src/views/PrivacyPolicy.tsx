@@ -2,9 +2,12 @@ import ax from "axios";
 import { Fragment, useMemo, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { Footer, Hero } from "../components";
-
-const PRIVACY_POLICY_URL =
-    "https://raw.githubusercontent.com/vex-chat/privacy-policy/main/PrivacyPolicy.md";
+import {
+    GITHUB_ENDPOINTS,
+    GITHUB_RAW_URLS,
+    GITHUB_REPOS,
+    GITHUB_WEB_URLS,
+} from "../components/constants";
 
 export function PrivacyPolicy(): JSX.Element {
     const [privacyPolicyMd, setPrivacyPolicyMd] = useState("");
@@ -12,15 +15,18 @@ export function PrivacyPolicy(): JSX.Element {
     const [commitHistory, setCommitHistory] = useState([] as any[]);
 
     useMemo(async () => {
-        const policyRes = await ax.get(PRIVACY_POLICY_URL);
+        const policyRes = await ax.get(GITHUB_RAW_URLS.PRIVACY_POLICY);
         setPrivacyPolicyMd(policyRes.data);
 
         const commitRes = await ax.get(
-            "https://api.github.com/repos/vex-chat/privacy-policy/commits/main"
+            GITHUB_ENDPOINTS.COMMITS(GITHUB_REPOS.PRIVACY_POLICY, "main")
         );
         const commitHistoryRes = await ax.get(
-            "https://api.github.com/repos/vex-chat/privacy-policy/commits?per_page=10&sha=" +
-                commitRes.data.sha
+            GITHUB_ENDPOINTS.COMMIT_HISTORY(
+                GITHUB_REPOS.PRIVACY_POLICY,
+                commitRes.data.sha,
+                10
+            )
         );
 
         setCommitHistory(commitHistoryRes.data);
@@ -66,7 +72,7 @@ export function PrivacyPolicy(): JSX.Element {
                             ))}
                             <a
                                 className="help"
-                                href="https://github.com/vex-chat/privacy-policy/commits/main"
+                                href={GITHUB_WEB_URLS.PRIVACY_POLICY_COMMITS}
                             >
                                 complete change history
                             </a>
