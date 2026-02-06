@@ -8,7 +8,6 @@ import privacy from "../images/private.svg";
 
 // Import parallax illustrations
 import { Anim1 } from "../components/anim1";
-import { Anim2 } from "../components/anim2";
 import { Anim3 } from "../components/anim3";
 import { Navbar } from "../components/Hero";
 import { useHistory } from "react-router-dom";
