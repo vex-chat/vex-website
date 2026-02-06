@@ -144,67 +144,6 @@ export function Home() {
                     </div>
                 </div>
             </section>
-
-            <section className="section" id="progress">
-                <div className="columns container has-text-left">
-                    <div className="column block is-half content">
-                        <h2 className="title is-spaced">
-                            We need your feedback
-                        </h2>
-                        <p className="subtitle">
-                            We hate boring instant messaging apps just as much
-                            as you do, so we've built an app that looks and
-                            feels like your favorite chat platform.
-                        </p>
-                        <p className="subtitle">
-                            Now that we're finished with the final touches,
-                            we're launching on Kickstarter to get your feedback,
-                            input, and see if you want to support us!
-                        </p>
-                        <div className="project-progress">
-                            <div className="completion">
-                                <h3 className="title is-1">$50,000</h3>
-                                <p>Collected</p>
-                            </div>
-                            <progress
-                                className="progress is-primary"
-                                value="15"
-                                max="100"
-                            >
-                                15%
-                            </progress>
-                            <nav className="level">
-                                <div className="level-item has-text-centered">
-                                    <div>
-                                        <p className="title">15%</p>
-                                        <p className="heading">Funded</p>
-                                    </div>
-                                </div>
-                                <div className="level-item has-text-centered">
-                                    <div>
-                                        <p className="title">$50k</p>
-                                        <p className="heading">Goal</p>
-                                    </div>
-                                </div>
-                                <div className="level-item has-text-centered">
-                                    <div>
-                                        <p className="title">21</p>
-                                        <p className="heading">Days left</p>
-                                    </div>
-                                </div>
-                            </nav>
-                        </div>
-                    </div>
-                    <div className="column is-half">
-                        <Anim2 />
-                    </div>
-                </div>
-                <div className="cta">
-                    <button className="button is-medium is-primary is-rounded">
-                        Support vex
-                    </button>
-                </div>
-            </section>
         </div>
     );
 }
