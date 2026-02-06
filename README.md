@@ -1,1 +1,1 @@
-website for vex.chat
+website for vex.wtf
