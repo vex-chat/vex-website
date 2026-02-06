@@ -76,22 +76,12 @@ export function ReleaseLinks() {
         const getFiles = async () => {
             try {
                 const res = await ax.get(
-                    "https://api.github.com/repos/vex-chat/vex-desktop/releases"
+                    "https://api.github.com/repos/vex-chat/vex-desktop/releases/latest"
                 );
-                const releases = res.data;
-                let found = false;
-                for (const release of releases) {
-                    if (release.assets.length === 12) {
-                        setRelease(release);
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found) {
-                    setFailed(true);
-                }
+                setRelease(res.data);
             } catch (err) {
                 console.warn("Fetch failed.");
+                setFailed(true);
             }
         };
 
