@@ -14,7 +14,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ax from "axios";
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { AssetsEntity, IRelease } from "../Release";
 
 const getFileIcon = (extension: string) => {
@@ -72,26 +72,34 @@ export function ReleaseLinks() {
     const [release, setRelease] = useState(initialState);
     const [failed, setFailed] = useState(false);
 
-    useMemo(() => {
+    useEffect(() => {
         const getFiles = async () => {
             try {
                 const res = await ax.get(
                     "https://api.github.com/repos/vex-chat/vex-desktop/releases"
                 );
                 const releases = res.data;
+                // Get the latest non-draft, non-prerelease release
+                // If no such release exists, fall back to the first release
                 let found = false;
                 for (const release of releases) {
-                    if (release.assets.length === 12) {
+                    if (!release.draft && !release.prerelease) {
                         setRelease(release);
                         found = true;
                         break;
                     }
                 }
+                // If no stable release found, use the first release (might be prerelease)
+                if (!found && releases.length > 0) {
+                    setRelease(releases[0]);
+                    found = true;
+                }
                 if (!found) {
                     setFailed(true);
                 }
             } catch (err) {
-                console.warn("Fetch failed.");
+                console.warn("Fetch failed.", err);
+                setFailed(true);
             }
         };
 
