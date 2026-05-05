@@ -78,6 +78,13 @@ const LIBVEX_NPM_URL = "https://www.npmjs.com/package/@vex-chat/libvex";
 const SPIRE_NPM_URL = "https://www.npmjs.com/package/@vex-chat/spire";
 const LIBVEX_REPO_URL = "https://github.com/vex-protocol/libvex-js";
 const SPIRE_REPO_URL = "https://github.com/vex-protocol/spire";
+/** Client API docs (TypeScript / integration). */
+const DOCS_URL = "https://lib.vex.wtf/";
+/** Monorepo: protocol, packages, and server workspace. */
+const PROTOCOL_SOURCE_URL = "https://github.com/vex-protocol/vex-protocol";
+/** Coordinated disclosure and security contact. */
+const SECURITY_POLICY_URL =
+    "https://github.com/vex-protocol/vex-protocol/blob/master/SECURITY.md";
 
 const PILLAR_HEADING_CLASS =
     "mt-2.5 text-base font-semibold tracking-tight text-zinc-50 sm:text-lg";
@@ -230,23 +237,35 @@ function StackPillars(props: {
 }): JSX.Element {
     const { libvexMeta, spireMeta } = props;
     return (
-        <div className="mt-6 grid gap-3 sm:grid-cols-2">
-            <div
-                className={`${PILLAR_CARD_CLASS} ring-1 ring-[#00b887]/[0.12] hover:border-white/18`}
+        <section className="mt-10" aria-labelledby="vex-reference-stack-heading">
+            <h2
+                id="vex-reference-stack-heading"
+                className="text-base font-semibold tracking-tight text-zinc-200 sm:text-lg"
             >
-                <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-[#00b887]/30 bg-[#00b887]/10 text-[#6ee7c5]">
-                    <PackageIcon className="h-5 w-5" aria-hidden />
-                </span>
-                <h2 className={PILLAR_HEADING_CLASS}>Client</h2>
-                <PillarPackageRepoLink
-                    href={LIBVEX_REPO_URL}
-                    packageLabel="@vex-chat/libvex"
-                    accent="client"
-                />
-                <p className="mt-2 flex-1 text-sm leading-snug text-zinc-400">
-                    Official TypeScript client for integrating Vex into apps and
-                    services.
-                </p>
+                Reference implementations
+            </h2>
+            <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-zinc-400">
+                One protocol end to end: integrate the client library, run the
+                server on your infrastructure, and operate a single stack you
+                own.
+            </p>
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                <div
+                    className={`${PILLAR_CARD_CLASS} ring-1 ring-[#00b887]/[0.12] hover:border-white/18`}
+                >
+                    <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-[#00b887]/30 bg-[#00b887]/10 text-[#6ee7c5]">
+                        <PackageIcon className="h-5 w-5" aria-hidden />
+                    </span>
+                    <h3 className={PILLAR_HEADING_CLASS}>Client library</h3>
+                    <PillarPackageRepoLink
+                        href={LIBVEX_REPO_URL}
+                        packageLabel="@vex-chat/libvex"
+                        accent="client"
+                    />
+                    <p className="mt-2 flex-1 text-sm leading-snug text-zinc-400">
+                        TypeScript client for apps, bots, and services that speak
+                        the protocol to your relay.
+                    </p>
                 {libvexMeta ? (
                     <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1.5 border-t border-white/[0.06] pt-3">
                         <VersionPill
@@ -263,24 +282,24 @@ function StackPillars(props: {
                         ) : null}
                     </div>
                 ) : null}
-            </div>
+                </div>
 
-            <div
-                className={`${PILLAR_CARD_CLASS} ring-1 ring-[#e70000]/[0.12] hover:border-white/18`}
-            >
-                <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-[#e70000]/30 bg-[#e70000]/10 text-[#fca5a5]">
-                    <ServerIcon className="h-5 w-5" aria-hidden />
-                </span>
-                <h2 className={PILLAR_HEADING_CLASS}>Server</h2>
-                <PillarPackageRepoLink
-                    href={SPIRE_REPO_URL}
-                    packageLabel="@vex-chat/spire"
-                    accent="server"
-                />
-                <p className="mt-2 flex-1 text-sm leading-snug text-zinc-400">
-                    Reference server that runs the protocol in production-shaped
-                    deployments.
-                </p>
+                <div
+                    className={`${PILLAR_CARD_CLASS} ring-1 ring-[#e70000]/[0.12] hover:border-white/18`}
+                >
+                    <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-[#e70000]/30 bg-[#e70000]/10 text-[#fca5a5]">
+                        <ServerIcon className="h-5 w-5" aria-hidden />
+                    </span>
+                    <h3 className={PILLAR_HEADING_CLASS}>Reference server</h3>
+                    <PillarPackageRepoLink
+                        href={SPIRE_REPO_URL}
+                        packageLabel="@vex-chat/spire"
+                        accent="server"
+                    />
+                    <p className="mt-2 flex-1 text-sm leading-snug text-zinc-400">
+                        Reference relay and persistence layer you deploy alongside
+                        the client—same protocol, your keys, your policy surface.
+                    </p>
                 {spireMeta &&
                 (spireMeta.latestVersion || spireMeta.latestCommit) ? (
                     <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1.5 border-t border-white/[0.06] pt-3">
@@ -300,18 +319,93 @@ function StackPillars(props: {
                         ) : null}
                     </div>
                 ) : null}
+                </div>
             </div>
-        </div>
+        </section>
     );
 }
 
-function StackLinkRow(props: { statusHref?: string }): JSX.Element | null {
-    if (!props.statusHref) return null;
+function HomeResourceLinks(): JSX.Element {
+    const externalClass = STACK_LINK_CLASS;
     return (
-        <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2">
-            <a href={props.statusHref} className={STACK_LINK_CLASS}>
+        <nav
+            className="mt-6 flex flex-wrap gap-2"
+            aria-label="Documentation, source, and policies"
+        >
+            <a
+                href={DOCS_URL}
+                target="_blank"
+                rel="noreferrer"
+                className={externalClass}
+            >
+                Documentation →
+            </a>
+            <a
+                href={PROTOCOL_SOURCE_URL}
+                target="_blank"
+                rel="noreferrer"
+                className={externalClass}
+            >
+                Protocol source →
+            </a>
+            <a
+                href={SECURITY_POLICY_URL}
+                target="_blank"
+                rel="noreferrer"
+                className={externalClass}
+            >
+                Security →
+            </a>
+            <a href="/licensing" className={STACK_LINK_CLASS}>
+                Licensing →
+            </a>
+            <a href="/status" className={STACK_LINK_CLASS}>
                 Status →
             </a>
+        </nav>
+    );
+}
+
+function HomeInstallHint(): JSX.Element {
+    return (
+        <div className="mt-5 max-w-2xl rounded-lg border border-white/10 bg-zinc-950/70 px-4 py-3">
+            <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.14em] text-zinc-500">
+                Install from npm
+            </p>
+            <p className="mt-2 text-sm leading-relaxed text-zinc-300">
+                Client:{" "}
+                <a
+                    href={LIBVEX_NPM_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-mono text-[0.8125rem] text-[#6ee7c5] underline decoration-[#00b887]/45 underline-offset-2 hover:text-[#a7f3d0]"
+                >
+                    npm install @vex-chat/libvex
+                </a>
+            </p>
+            <p className="mt-1.5 text-sm leading-relaxed text-zinc-300">
+                Reference server package:{" "}
+                <a
+                    href={SPIRE_NPM_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-mono text-[0.8125rem] text-[#fca5a5] underline decoration-[#e70000]/40 underline-offset-2 hover:text-[#fecaca]"
+                >
+                    npm install @vex-chat/spire
+                </a>
+                <span className="text-zinc-500">
+                    {" "}
+                    · server source:{" "}
+                    <a
+                        href={SPIRE_REPO_URL}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-zinc-400 underline decoration-zinc-600 underline-offset-2 hover:text-zinc-200"
+                    >
+                        github.com/vex-protocol/spire
+                    </a>
+                </span>
+            </p>
         </div>
     );
 }
@@ -444,17 +538,22 @@ export function HomePage(_: { path?: string; default?: boolean }): JSX.Element {
     return (
         <RoutePanel splotch="home">
             <h1 className="mt-0 max-w-4xl text-balance text-3xl font-bold tracking-tight text-zinc-50 sm:text-5xl">
-                Control your own communications infrastructure.
+                Private communications infrastructure.
             </h1>
             <p className="mt-4 max-w-3xl text-lg font-semibold tracking-tight text-zinc-200 sm:text-xl">
-                No third parties. No logging. No surveillance.
+                Your server. Your keys. Your stack.
             </p>
             <p className="hero-lede mt-4 max-w-3xl text-base leading-7 text-zinc-300 sm:text-lg">
                 Vex is an open source end-to-end encrypted messaging protocol.
-                Our software is designed to facilitate communications in forward
-                environments where privacy and ephemerality are critical
-                concerns.
+                Deploy the reference server, integrate the client library, and own
+                your communications stack with no third party in the loop.
             </p>
+            <p className="mt-3 max-w-3xl text-sm leading-6 text-zinc-500">
+                Retention, export, and teardown follow your deployment policies and
+                protocol settings—not a vendor-hosted control plane.
+            </p>
+            <HomeResourceLinks />
+            <HomeInstallHint />
             <StackPillars libvexMeta={libvexMeta} spireMeta={spireMeta} />
         </RoutePanel>
     );
