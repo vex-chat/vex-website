@@ -7,6 +7,7 @@ import { MenuIcon } from "./Icons";
 
 const LINKS = [
     { href: "/", label: "Home" },
+    { href: "/overview", label: "Overview" },
     { href: "/status", label: "Status" },
     { href: "/licensing", label: "Licensing" },
     { href: "/privacy-policy", label: "Privacy Policy" },

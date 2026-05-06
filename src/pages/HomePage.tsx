@@ -332,6 +332,9 @@ function HomeResourceLinks(): JSX.Element {
             className="mt-6 flex flex-wrap gap-2"
             aria-label="Documentation, source, and policies"
         >
+            <a href="/overview" className={STACK_LINK_CLASS}>
+                Overview →
+            </a>
             <a
                 href={DOCS_URL}
                 target="_blank"

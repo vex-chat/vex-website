@@ -1,7 +1,84 @@
 import { Fragment } from "preact";
 import type { ComponentChildren } from "preact";
 
-function parseInline(text: string): ComponentChildren[] {
+const DEFAULT_LINK_CLASS =
+    "text-red-200 underline decoration-red-400/60 underline-offset-4 hover:text-red-100";
+
+/** Neutral links for site-owned docs (e.g. `/overview`). */
+export const SITE_DOC_LINK_CLASS =
+    "text-zinc-200 underline decoration-white/25 underline-offset-4 hover:text-white";
+
+export type MarkdownTocItem = {
+    level: number;
+    text: string;
+    id: string;
+};
+
+type QuickMarkdownContext = {
+    linkClassName: string;
+    headingIdByLine: Map<number, string> | null;
+    headingAnchorOffset: boolean;
+};
+
+function stripInlineMd(s: string): string {
+    return s
+        .replace(/\*\*([^*]+)\*\*/g, "$1")
+        .replace(/\*([^*]+)\*/g, "$1")
+        .replace(/`([^`]+)`/g, "$1")
+        .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1");
+}
+
+function slugifyForAnchor(s: string): string {
+    return stripInlineMd(s)
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9\s-]/g, "")
+        .replace(/\s+/g, "-")
+        .replace(/-+/g, "-")
+        .replace(/^-|-$/g, "");
+}
+
+function assignHeadingIds(lines: string[]): Map<number, string> {
+    const used = new Set<string>();
+    const map = new Map<number, string>();
+    for (let i = 0; i < lines.length; i++) {
+        const m = lines[i].match(/^(#{1,6})\s+(.+)$/);
+        if (!m) continue;
+        const plain = stripInlineMd(m[2]);
+        let base = slugifyForAnchor(plain);
+        if (!base) base = "section";
+        let slug = base;
+        let n = 2;
+        while (used.has(slug)) {
+            slug = `${base}-${n}`;
+            n++;
+        }
+        used.add(slug);
+        map.set(i, slug);
+    }
+    return map;
+}
+
+/** Build a table of contents from `##` / `###` (and deeper) headings; IDs match rendered heading `id`s. */
+export function buildMarkdownOutline(markdown: string): MarkdownTocItem[] {
+    const lines = markdown.replace(/\r\n/g, "\n").split("\n");
+    const idByLine = assignHeadingIds(lines);
+    const out: MarkdownTocItem[] = [];
+    for (let i = 0; i < lines.length; i++) {
+        const m = lines[i].match(/^(#{1,6})\s+(.+)$/);
+        if (!m) continue;
+        const id = idByLine.get(i);
+        if (!id) continue;
+        out.push({
+            level: m[1].length,
+            text: stripInlineMd(m[2]),
+            id,
+        });
+    }
+    return out;
+}
+
+function parseInline(text: string, ctx: QuickMarkdownContext): ComponentChildren[] {
     const pattern = /(`[^`]+`)|(\*\*[^*]+\*\*)|(\*[^*]+\*)|(\[[^\]]+\]\([^)]+\))/g;
     const nodes: ComponentChildren[] = [];
     let lastIndex = 0;
@@ -35,13 +112,16 @@ function parseInline(text: string): ComponentChildren[] {
         } else if (token.startsWith("[")) {
             const linkMatch = token.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
             if (linkMatch) {
+                const href = linkMatch[2];
+                const isExternal = /^https?:\/\//i.test(href);
                 nodes.push(
                     <a
                         key={`${match.index}-link`}
-                        href={linkMatch[2]}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-red-200 underline decoration-red-400/60 underline-offset-4 hover:text-red-100"
+                        href={href}
+                        {...(isExternal
+                            ? { target: "_blank", rel: "noreferrer" as const }
+                            : {})}
+                        className={ctx.linkClassName}
                     >
                         {linkMatch[1]}
                     </a>
@@ -61,17 +141,35 @@ function parseInline(text: string): ComponentChildren[] {
     return nodes;
 }
 
-function headingClass(level: number): string {
+function headingClass(level: number, anchorOffset: boolean): string {
+    const scroll = anchorOffset ? " scroll-mt-28" : "";
     if (level === 1)
-        return "mt-8 text-3xl font-bold tracking-tight text-zinc-50";
+        return `mt-8 text-3xl font-bold tracking-tight text-zinc-50${scroll}`;
     if (level === 2)
-        return "mt-7 text-2xl font-semibold tracking-tight text-zinc-50";
-    if (level === 3) return "mt-6 text-xl font-semibold text-zinc-100";
-    return "mt-5 text-lg font-semibold text-zinc-100";
+        return `mt-7 text-2xl font-semibold tracking-tight text-zinc-50${scroll}`;
+    if (level === 3) return `mt-6 text-xl font-semibold text-zinc-100${scroll}`;
+    return `mt-5 text-lg font-semibold text-zinc-100${scroll}`;
 }
 
-export function renderQuickMarkdown(markdown: string): ComponentChildren[] {
+export type RenderQuickMarkdownOptions = {
+    /** Defaults to policy-style red links. */
+    linkClassName?: string;
+    /** When false, headings do not get `id` attributes (legacy behavior). */
+    headingIds?: boolean;
+};
+
+export function renderQuickMarkdown(
+    markdown: string,
+    options?: RenderQuickMarkdownOptions
+): ComponentChildren[] {
     const lines = markdown.replace(/\r\n/g, "\n").split("\n");
+    const headingIds = options?.headingIds !== false;
+    const headingIdByLine = headingIds ? assignHeadingIds(lines) : null;
+    const ctx: QuickMarkdownContext = {
+        linkClassName: options?.linkClassName ?? DEFAULT_LINK_CLASS,
+        headingIdByLine,
+        headingAnchorOffset: Boolean(headingIdByLine),
+    };
     const result: ComponentChildren[] = [];
     let i = 0;
 
@@ -107,41 +205,43 @@ export function renderQuickMarkdown(markdown: string): ComponentChildren[] {
         const heading = raw.match(/^(#{1,6})\s+(.+)$/);
         if (heading) {
             const level = heading[1].length;
-            const content = parseInline(heading[2]);
-            const className = headingClass(level);
+            const content = parseInline(heading[2], ctx);
+            const className = headingClass(level, ctx.headingAnchorOffset);
+            const id = headingIdByLine?.get(i);
+            const idProp = id ? { id } : {};
             if (level === 1)
                 result.push(
-                    <h1 key={`h-${i}`} className={className}>
+                    <h1 key={`h-${i}`} className={className} {...idProp}>
                         {content}
                     </h1>
                 );
             else if (level === 2)
                 result.push(
-                    <h2 key={`h-${i}`} className={className}>
+                    <h2 key={`h-${i}`} className={className} {...idProp}>
                         {content}
                     </h2>
                 );
             else if (level === 3)
                 result.push(
-                    <h3 key={`h-${i}`} className={className}>
+                    <h3 key={`h-${i}`} className={className} {...idProp}>
                         {content}
                     </h3>
                 );
             else if (level === 4)
                 result.push(
-                    <h4 key={`h-${i}`} className={className}>
+                    <h4 key={`h-${i}`} className={className} {...idProp}>
                         {content}
                     </h4>
                 );
             else if (level === 5)
                 result.push(
-                    <h5 key={`h-${i}`} className={className}>
+                    <h5 key={`h-${i}`} className={className} {...idProp}>
                         {content}
                     </h5>
                 );
             else
                 result.push(
-                    <h6 key={`h-${i}`} className={className}>
+                    <h6 key={`h-${i}`} className={className} {...idProp}>
                         {content}
                     </h6>
                 );
@@ -168,7 +268,7 @@ export function renderQuickMarkdown(markdown: string): ComponentChildren[] {
                     key={`q-${i}`}
                     className="mt-5 border-l-2 border-red-300/70 pl-4 text-zinc-300"
                 >
-                    {parseInline(quoteLines.join(" "))}
+                    {parseInline(quoteLines.join(" "), ctx)}
                 </blockquote>
             );
             continue;
@@ -187,7 +287,9 @@ export function renderQuickMarkdown(markdown: string): ComponentChildren[] {
                     className="mt-4 list-disc space-y-1 pl-6 text-zinc-200"
                 >
                     {items.map((item, index) => (
-                        <li key={`ul-${i}-${index}`}>{parseInline(item)}</li>
+                        <li key={`ul-${i}-${index}`}>
+                            {parseInline(item, ctx)}
+                        </li>
                     ))}
                 </ul>
             );
@@ -207,7 +309,9 @@ export function renderQuickMarkdown(markdown: string): ComponentChildren[] {
                     className="mt-4 list-decimal space-y-1 pl-6 text-zinc-200"
                 >
                     {items.map((item, index) => (
-                        <li key={`ol-${i}-${index}`}>{parseInline(item)}</li>
+                        <li key={`ol-${i}-${index}`}>
+                            {parseInline(item, ctx)}
+                        </li>
                     ))}
                 </ol>
             );
@@ -233,7 +337,7 @@ export function renderQuickMarkdown(markdown: string): ComponentChildren[] {
 
         result.push(
             <p key={`p-${i}`} className="mt-4 leading-7 text-zinc-200">
-                {parseInline(paragraphLines.join(" "))}
+                {parseInline(paragraphLines.join(" "), ctx)}
             </p>
         );
     }
