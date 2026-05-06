@@ -38,7 +38,9 @@ Point clients at the Spire instance you run; keys stay with participants per the
 
 ## Relationship to this website
 
-This page is **Markdown in the vex.wtf repo** (`public/docs/SiteOverview.md`), fetched by the browser and rendered with the same lightweight Markdown path as the privacy policy. Edit the file, merge, deploy — the overview updates with the site. For legal text that should live outside this repo, the privacy policy pattern (separate GitHub project + raw URL) still applies.
+This page is **Markdown in the vex.wtf repo** at [`docs/SiteOverview.md`](https://github.com/vex-protocol/vex.wtf/blob/master/docs/SiteOverview.md). The browser loads it from **GitHub raw** on `master`—the same idea as the privacy policy fetching from its own repo—and renders it with the same lightweight Markdown path used elsewhere on vex.wtf. Merge on GitHub to update copy; redeploy the site only when you change routing or rendering, not for every wording tweak.
+
+For legal text that should live outside this repo, the privacy policy pattern (separate GitHub project + raw URL) still applies.
 
 ## Defense- or sector-specific packets
 

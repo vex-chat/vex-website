@@ -8,11 +8,12 @@ import {
     type MarkdownTocItem,
 } from "../lib/quickMarkdown";
 
-/** Versioned with the site (`public/docs/`); same-origin fetch, no GitHub API. */
-const SITE_OVERVIEW_MD_URL = "/docs/SiteOverview.md";
+/** Canonical Markdown on `master` (same pattern as privacy policy). */
+const SITE_OVERVIEW_RAW_URL =
+    "https://raw.githubusercontent.com/vex-protocol/vex.wtf/master/docs/SiteOverview.md";
 
 const SITE_OVERVIEW_EDIT_ON_GITHUB =
-    "https://github.com/vex-protocol/vex.wtf/blob/master/public/docs/SiteOverview.md";
+    "https://github.com/vex-protocol/vex.wtf/blob/master/docs/SiteOverview.md";
 
 export function OverviewPage(_: { path?: string }): JSX.Element {
     const [markdown, setMarkdown] = useState("");
@@ -25,7 +26,7 @@ export function OverviewPage(_: { path?: string }): JSX.Element {
         async function load() {
             try {
                 setStatus("loading");
-                const response = await fetch(SITE_OVERVIEW_MD_URL);
+                const response = await fetch(SITE_OVERVIEW_RAW_URL);
                 if (!response.ok) {
                     throw new Error(String(response.status));
                 }
