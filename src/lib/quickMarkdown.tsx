@@ -4,7 +4,7 @@ import type { ComponentChildren } from "preact";
 const DEFAULT_LINK_CLASS =
     "text-red-200 underline decoration-red-400/60 underline-offset-4 hover:text-red-100";
 
-/** Neutral links for site-owned docs (e.g. `/overview`). */
+/** Neutral links for site-owned markdown pages. */
 export const SITE_DOC_LINK_CLASS =
     "text-zinc-200 underline decoration-white/25 underline-offset-4 hover:text-white";
 
@@ -184,9 +184,8 @@ export function renderQuickMarkdown(
 
         if (line.startsWith("```")) {
             const codeLines: string[] = [];
-            const fence = line;
             i++;
-            while (i < lines.length && lines[i].trim() !== fence) {
+            while (i < lines.length && !lines[i].trim().startsWith("```")) {
                 codeLines.push(lines[i]);
                 i++;
             }

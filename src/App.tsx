@@ -27,14 +27,10 @@ export function App(): JSX.Element {
     const [StatusPage, setStatusPage] = useState<ComponentType<{
         path?: string;
     }> | null>(null);
-    const [OverviewPage, setOverviewPage] = useState<ComponentType<{
-        path?: string;
-    }> | null>(null);
 
     useEffect(() => {
         if (
             HomePage ||
-            currentPath === "/overview" ||
             currentPath === "/privacy-policy" ||
             currentPath === "/licensing" ||
             currentPath === "/cla" ||
@@ -118,31 +114,12 @@ export function App(): JSX.Element {
         };
     }, [StatusPage, currentPath]);
 
-    useEffect(() => {
-        if (OverviewPage || currentPath !== "/overview") return;
-        let cancelled = false;
-        void import("./pages/OverviewPage").then((module) => {
-            if (!cancelled) {
-                setOverviewPage(() => module.OverviewPage);
-            }
-        });
-        return () => {
-            cancelled = true;
-        };
-    }, [OverviewPage, currentPath]);
-
     return (
         <ClaSessionProvider>
             <div className="min-h-screen bg-zinc-950 text-zinc-100">
                 <Navbar currentPath={currentPath} />
                 <main className="mx-auto w-full max-w-5xl px-4 pb-16 pt-28 sm:px-6 lg:px-8">
-                    {currentPath === "/overview" ? (
-                        OverviewPage ? (
-                            <OverviewPage />
-                        ) : (
-                            <OverviewPageLoading />
-                        )
-                    ) : currentPath === "/privacy-policy" ? (
+                    {currentPath === "/privacy-policy" ? (
                         PrivacyPolicyPage ? (
                             <PrivacyPolicyPage />
                         ) : (
@@ -181,17 +158,6 @@ export function App(): JSX.Element {
                 <Footer />
             </div>
         </ClaSessionProvider>
-    );
-}
-
-function OverviewPageLoading(): JSX.Element {
-    return (
-        <RoutePanel splotch="soft">
-            <div className="inline-flex items-center gap-2.5 text-zinc-300">
-                <CrosshairSpinner className="text-zinc-200" />
-                <span>Loading overview</span>
-            </div>
-        </RoutePanel>
     );
 }
 

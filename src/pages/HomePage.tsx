@@ -78,13 +78,6 @@ const LIBVEX_NPM_URL = "https://www.npmjs.com/package/@vex-chat/libvex";
 const SPIRE_NPM_URL = "https://www.npmjs.com/package/@vex-chat/spire";
 const LIBVEX_REPO_URL = "https://github.com/vex-protocol/libvex-js";
 const SPIRE_REPO_URL = "https://github.com/vex-protocol/spire";
-/** Client API docs (TypeScript / integration). */
-const DOCS_URL = "https://lib.vex.wtf/";
-/** Monorepo: protocol, packages, and server workspace. */
-const PROTOCOL_SOURCE_URL = "https://github.com/vex-protocol/vex-protocol";
-/** Coordinated disclosure and security contact. */
-const SECURITY_POLICY_URL =
-    "https://github.com/vex-protocol/vex-protocol/blob/master/SECURITY.md";
 
 const PILLAR_HEADING_CLASS =
     "mt-2.5 text-base font-semibold tracking-tight text-zinc-50 sm:text-lg";
@@ -225,9 +218,6 @@ function BuildCommitPill(props: {
     );
 }
 
-const STACK_LINK_CLASS =
-    "inline-flex items-center gap-1 rounded-lg border border-white/15 bg-zinc-950/80 px-3 py-2 text-sm font-semibold text-zinc-100 transition hover:border-white/30 hover:bg-zinc-900/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/55 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950";
-
 const PILLAR_CARD_CLASS =
     "group relative flex h-full flex-col rounded-xl border border-white/10 bg-zinc-950/90 p-3.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] transition-colors hover:border-white/18 sm:p-4";
 
@@ -322,50 +312,6 @@ function StackPillars(props: {
                 </div>
             </div>
         </section>
-    );
-}
-
-function HomeResourceLinks(): JSX.Element {
-    const externalClass = STACK_LINK_CLASS;
-    return (
-        <nav
-            className="mt-6 flex flex-wrap gap-2"
-            aria-label="Documentation, source, and policies"
-        >
-            <a href="/overview" className={STACK_LINK_CLASS}>
-                Overview →
-            </a>
-            <a
-                href={DOCS_URL}
-                target="_blank"
-                rel="noreferrer"
-                className={externalClass}
-            >
-                Documentation →
-            </a>
-            <a
-                href={PROTOCOL_SOURCE_URL}
-                target="_blank"
-                rel="noreferrer"
-                className={externalClass}
-            >
-                Protocol source →
-            </a>
-            <a
-                href={SECURITY_POLICY_URL}
-                target="_blank"
-                rel="noreferrer"
-                className={externalClass}
-            >
-                Security →
-            </a>
-            <a href="/licensing" className={STACK_LINK_CLASS}>
-                Licensing →
-            </a>
-            <a href="/status" className={STACK_LINK_CLASS}>
-                Status →
-            </a>
-        </nav>
     );
 }
 
@@ -555,7 +501,6 @@ export function HomePage(_: { path?: string; default?: boolean }): JSX.Element {
                 Retention, export, and teardown follow your deployment policies and
                 protocol settings—not a vendor-hosted control plane.
             </p>
-            <HomeResourceLinks />
             <HomeInstallHint />
             <StackPillars libvexMeta={libvexMeta} spireMeta={spireMeta} />
         </RoutePanel>
