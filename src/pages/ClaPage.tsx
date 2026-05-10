@@ -385,8 +385,9 @@ export function ClaPage(): JSX.Element {
                                             checked={agreed}
                                             onChange={(e) =>
                                                 setAgreed(
-                                                    (e.target as HTMLInputElement)
-                                                        .checked
+                                                    (
+                                                        e.target as HTMLInputElement
+                                                    ).checked
                                                 )
                                             }
                                             disabled={!canSubmit}

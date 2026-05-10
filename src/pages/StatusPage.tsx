@@ -466,14 +466,16 @@ export function StatusPage(_: { path?: string }): JSX.Element {
                 let uptimeBlocks: MonitorTimeseriesBlock[] = [];
                 if (timeseriesResponse.ok) {
                     try {
-                        const timeseriesJson: unknown = await timeseriesResponse.json();
+                        const timeseriesJson: unknown =
+                            await timeseriesResponse.json();
                         uptimeBlocks = parseTimeseriesPayload(timeseriesJson);
                     } catch {
                         uptimeBlocks = [];
                     }
                 }
 
-                const uptimeData = (await uptimeResponse.json()) as MonitorSummaryResponse;
+                const uptimeData =
+                    (await uptimeResponse.json()) as MonitorSummaryResponse;
                 const summary = uptimeData.data;
                 const latestSample = summary?.latest;
                 const runtimeSha =

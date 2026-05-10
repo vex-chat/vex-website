@@ -144,7 +144,7 @@ export default async function handler(
 
     const sealedAccepted = seal(
         secret,
-        (accepted as unknown) as Record<string, unknown>
+        accepted as unknown as Record<string, unknown>
     );
 
     const secure = useSecureCookies();

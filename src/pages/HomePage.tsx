@@ -227,7 +227,10 @@ function StackPillars(props: {
 }): JSX.Element {
     const { libvexMeta, spireMeta } = props;
     return (
-        <section className="mt-10" aria-labelledby="vex-reference-stack-heading">
+        <section
+            className="mt-10"
+            aria-labelledby="vex-reference-stack-heading"
+        >
             <h2
                 id="vex-reference-stack-heading"
                 className="text-base font-semibold tracking-tight text-zinc-200 sm:text-lg"
@@ -253,25 +256,25 @@ function StackPillars(props: {
                         accent="client"
                     />
                     <p className="mt-2 flex-1 text-sm leading-snug text-zinc-400">
-                        TypeScript client for apps, bots, and services that speak
-                        the protocol to your relay.
+                        TypeScript client for apps, bots, and services that
+                        speak the protocol to your relay.
                     </p>
-                {libvexMeta ? (
-                    <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1.5 border-t border-white/[0.06] pt-3">
-                        <VersionPill
-                            value={libvexMeta.latestVersion}
-                            href={LIBVEX_NPM_URL}
-                        />
-                        {libvexMeta.latestCommit ? (
-                            <BuildCommitPill
-                                status={libvexMeta.buildStatus}
-                                buildHref={libvexMeta.buildUrl}
-                                commit={libvexMeta.latestCommit}
-                                maxMessageLength={28}
+                    {libvexMeta ? (
+                        <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1.5 border-t border-white/[0.06] pt-3">
+                            <VersionPill
+                                value={libvexMeta.latestVersion}
+                                href={LIBVEX_NPM_URL}
                             />
-                        ) : null}
-                    </div>
-                ) : null}
+                            {libvexMeta.latestCommit ? (
+                                <BuildCommitPill
+                                    status={libvexMeta.buildStatus}
+                                    buildHref={libvexMeta.buildUrl}
+                                    commit={libvexMeta.latestCommit}
+                                    maxMessageLength={28}
+                                />
+                            ) : null}
+                        </div>
+                    ) : null}
                 </div>
 
                 <div
@@ -287,28 +290,29 @@ function StackPillars(props: {
                         accent="server"
                     />
                     <p className="mt-2 flex-1 text-sm leading-snug text-zinc-400">
-                        Reference relay and persistence layer you deploy alongside
-                        the client—same protocol, your keys, your policy surface.
+                        Reference relay and persistence layer you deploy
+                        alongside the client—same protocol, your keys, your
+                        policy surface.
                     </p>
-                {spireMeta &&
-                (spireMeta.latestVersion || spireMeta.latestCommit) ? (
-                    <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1.5 border-t border-white/[0.06] pt-3">
-                        {spireMeta.latestVersion ? (
-                            <VersionPill
-                                value={spireMeta.latestVersion}
-                                href={SPIRE_NPM_URL}
-                            />
-                        ) : null}
-                        {spireMeta.latestCommit ? (
-                            <BuildCommitPill
-                                status={spireMeta.buildStatus}
-                                buildHref={spireMeta.buildUrl}
-                                commit={spireMeta.latestCommit}
-                                maxMessageLength={28}
-                            />
-                        ) : null}
-                    </div>
-                ) : null}
+                    {spireMeta &&
+                    (spireMeta.latestVersion || spireMeta.latestCommit) ? (
+                        <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1.5 border-t border-white/[0.06] pt-3">
+                            {spireMeta.latestVersion ? (
+                                <VersionPill
+                                    value={spireMeta.latestVersion}
+                                    href={SPIRE_NPM_URL}
+                                />
+                            ) : null}
+                            {spireMeta.latestCommit ? (
+                                <BuildCommitPill
+                                    status={spireMeta.buildStatus}
+                                    buildHref={spireMeta.buildUrl}
+                                    commit={spireMeta.latestCommit}
+                                    maxMessageLength={28}
+                                />
+                            ) : null}
+                        </div>
+                    ) : null}
                 </div>
             </div>
         </section>
@@ -383,7 +387,8 @@ export function HomePage(_: { path?: string; default?: boolean }): JSX.Element {
                 let spireLatestVersion: string | null = null;
                 if (!cancelled && spireNpmResponse.ok) {
                     try {
-                        const spireNpmJson = (await spireNpmResponse.json()) as NpmPackageResponse;
+                        const spireNpmJson =
+                            (await spireNpmResponse.json()) as NpmPackageResponse;
                         const v =
                             spireNpmJson["dist-tags"]?.latest?.trim() ?? "";
                         if (v.length > 0 && v !== "n/a") {
@@ -395,7 +400,8 @@ export function HomePage(_: { path?: string; default?: boolean }): JSX.Element {
                 }
 
                 if (!cancelled && npmResponse.ok && libvexGhResponse.ok) {
-                    const npmData = (await npmResponse.json()) as NpmPackageResponse;
+                    const npmData =
+                        (await npmResponse.json()) as NpmPackageResponse;
                     const ghJson = (await libvexGhResponse.json()) as {
                         runs: GitHubWorkflowRunsResponse;
                         commits: GitHubCommitApiResponse[];
@@ -494,12 +500,12 @@ export function HomePage(_: { path?: string; default?: boolean }): JSX.Element {
             </p>
             <p className="hero-lede mt-4 max-w-3xl text-base leading-7 text-zinc-300 sm:text-lg">
                 Vex is an open source end-to-end encrypted messaging protocol.
-                Deploy the reference server, integrate the client library, and own
-                your communications stack with no third party in the loop.
+                Deploy the reference server, integrate the client library, and
+                own your communications stack with no third party in the loop.
             </p>
             <p className="mt-3 max-w-3xl text-sm leading-6 text-zinc-500">
-                Retention, export, and teardown follow your deployment policies and
-                protocol settings—not a vendor-hosted control plane.
+                Retention, export, and teardown follow your deployment policies
+                and protocol settings—not a vendor-hosted control plane.
             </p>
             <HomeInstallHint />
             <StackPillars libvexMeta={libvexMeta} spireMeta={spireMeta} />

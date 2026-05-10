@@ -107,9 +107,7 @@ export async function addContributorToClabotRepo(
     return { repo: repoKey, ok: true };
 }
 
-export function parseRepoList(
-    raw: string | undefined
-): Array<{
+export function parseRepoList(raw: string | undefined): Array<{
     owner: string;
     repo: string;
 }> {

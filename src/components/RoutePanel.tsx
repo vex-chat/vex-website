@@ -8,35 +8,27 @@ export type RoutePanelSplotch = "home" | "status" | "tilt" | "soft";
 
 const SplotchContent: Record<RoutePanelSplotch, { a: string; b: string }> = {
     home: {
-        a:
-            "absolute -right-20 -top-20 h-56 w-56 rounded-full bg-[#e70000]/20 blur-3xl",
-        b:
-            "absolute -bottom-28 left-1/2 h-56 w-56 -translate-x-1/2 rounded-full bg-[#e70000]/10 blur-3xl",
+        a: "absolute -right-20 -top-20 h-56 w-56 rounded-full bg-[#e70000]/20 blur-3xl",
+        b: "absolute -bottom-28 left-1/2 h-56 w-56 -translate-x-1/2 rounded-full bg-[#e70000]/10 blur-3xl",
     },
     status: {
-        a:
-            "absolute -left-20 -top-24 h-52 w-52 rounded-full bg-[#e70000]/20 blur-3xl",
-        b:
-            "absolute -bottom-28 right-16 h-56 w-56 rounded-full bg-[#e70000]/10 blur-3xl",
+        a: "absolute -left-20 -top-24 h-52 w-52 rounded-full bg-[#e70000]/20 blur-3xl",
+        b: "absolute -bottom-28 right-16 h-56 w-56 rounded-full bg-[#e70000]/10 blur-3xl",
     },
     /**
      * Licensing: same blur strength as home / status. Mix home + status splots so it is
      * visibly distinct on the page (older tilt/soft presets were too weak and read as blank).
      */
     tilt: {
-        a:
-            "absolute -right-20 -top-20 h-56 w-56 rounded-full bg-[#e70000]/20 blur-3xl",
-        b:
-            "absolute -bottom-28 right-16 h-56 w-56 rounded-full bg-[#e70000]/10 blur-3xl",
+        a: "absolute -right-20 -top-20 h-56 w-56 rounded-full bg-[#e70000]/20 blur-3xl",
+        b: "absolute -bottom-28 right-16 h-56 w-56 rounded-full bg-[#e70000]/10 blur-3xl",
     },
     /**
      * Privacy: softer second blob uses the same /10 as elsewhere; two corners stay obvious.
      */
     soft: {
-        a:
-            "absolute -left-20 -top-24 h-52 w-52 rounded-full bg-[#e70000]/20 blur-3xl",
-        b:
-            "absolute -bottom-28 left-1/2 h-56 w-56 -translate-x-1/2 rounded-full bg-[#e70000]/10 blur-3xl",
+        a: "absolute -left-20 -top-24 h-52 w-52 rounded-full bg-[#e70000]/20 blur-3xl",
+        b: "absolute -bottom-28 left-1/2 h-56 w-56 -translate-x-1/2 rounded-full bg-[#e70000]/10 blur-3xl",
     },
 };
 

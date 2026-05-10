@@ -157,7 +157,7 @@ export default async function handler(
     };
     const sealedSession = seal(
         secret,
-        (session as unknown) as Record<string, unknown>
+        session as unknown as Record<string, unknown>
     );
 
     const secure = useSecureCookies();

@@ -78,8 +78,12 @@ export function buildMarkdownOutline(markdown: string): MarkdownTocItem[] {
     return out;
 }
 
-function parseInline(text: string, ctx: QuickMarkdownContext): ComponentChildren[] {
-    const pattern = /(`[^`]+`)|(\*\*[^*]+\*\*)|(\*[^*]+\*)|(\[[^\]]+\]\([^)]+\))/g;
+function parseInline(
+    text: string,
+    ctx: QuickMarkdownContext
+): ComponentChildren[] {
+    const pattern =
+        /(`[^`]+`)|(\*\*[^*]+\*\*)|(\*[^*]+\*)|(\[[^\]]+\]\([^)]+\))/g;
     const nodes: ComponentChildren[] = [];
     let lastIndex = 0;
     let match: RegExpExecArray | null;

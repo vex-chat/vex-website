@@ -512,9 +512,7 @@ export function parseTimeseriesPayload(
         .filter((b): b is MonitorTimeseriesBlock => b !== null);
 }
 
-export function getMonitorBucketPollCounts(
-    block: MonitorTimeseriesBlock
-): {
+export function getMonitorBucketPollCounts(block: MonitorTimeseriesBlock): {
     total: number;
     online: number;
     offline: number;
