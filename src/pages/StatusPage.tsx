@@ -61,7 +61,6 @@ type SpireMeta = {
     healthVersion: string | null;
     healthCheckDurationMs: number | null;
     dbHealthy: boolean | null;
-    runtimeCommitSha: string | null;
     uptimePercent: number | null;
     averageLatencyMs: number | null;
     maxLatencyMs: number | null;
@@ -476,12 +475,6 @@ export function StatusPage(_: { path?: string }): JSX.Element {
                 const uptimeData = (await uptimeResponse.json()) as MonitorSummaryResponse;
                 const summary = uptimeData.data;
                 const latestSample = summary?.latest;
-                const runtimeSha =
-                    latestSample &&
-                    latestSample.serviceCommitSha &&
-                    latestSample.serviceCommitSha !== "unknown"
-                        ? latestSample.serviceCommitSha.slice(0, 12)
-                        : null;
                 let latestRun:
                     | {
                           status: string;
@@ -525,7 +518,6 @@ export function StatusPage(_: { path?: string }): JSX.Element {
                         healthCheckDurationMs:
                             latestSample?.statusCheckDurationMs ?? null,
                         dbHealthy: latestSample?.dbHealthy ?? null,
-                        runtimeCommitSha: runtimeSha,
                         uptimePercent: summary?.uptimePercent ?? null,
                         averageLatencyMs: summary?.averageLatencyMs ?? null,
                         maxLatencyMs: summary?.maxLatencyMs ?? null,
@@ -578,12 +570,6 @@ export function StatusPage(_: { path?: string }): JSX.Element {
         ...Array.from({ length: missingUptimeBlockSlots }, () => null),
         ...visibleUptimeBlocks,
     ];
-    const runtimeRef =
-        spireMeta?.runtimeCommitSha ??
-        spireMeta?.latestCommit?.sha ??
-        "unknown";
-    const runtimeRefShort =
-        runtimeRef === "unknown" ? runtimeRef : runtimeRef.slice(0, 7);
     const endpointStatusToneClass =
         spireMeta === null
             ? "text-zinc-400"
@@ -742,12 +728,6 @@ export function StatusPage(_: { path?: string }): JSX.Element {
                             </span>
                         </span>
                     )}
-                    <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.03] px-2.5 py-1 text-zinc-400">
-                        runtime
-                        <span className="font-mono text-zinc-200">
-                            {runtimeRefShort}
-                        </span>
-                    </span>
                     {spireMeta && spireMeta.dbHealthy !== null && (
                         <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.03] px-2.5 py-1 text-zinc-400">
                             DB

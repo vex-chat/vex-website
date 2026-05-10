@@ -14,7 +14,6 @@ export type MonitorSummaryResponse = {
             ok: boolean;
             requestLatencyMs: number;
             serviceVersion: string;
-            serviceCommitSha: string;
             statusCheckDurationMs: number;
             dbHealthy: boolean;
         };

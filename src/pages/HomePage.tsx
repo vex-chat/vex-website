@@ -42,12 +42,8 @@ type GitHubCommitApiResponse = {
     } | null;
 };
 
-type LibvexMeta = {
-    rcVersion: string;
-    latestVersion: string;
-    publishedAt: string;
+type MonorepoGithubMeta = {
     buildStatus: string;
-    buildUpdatedAt: string;
     buildUrl: string;
     latestCommit: {
         sha: string;
@@ -61,23 +57,16 @@ type LibvexMeta = {
     } | null;
 };
 
-/** Latest Spire repo head + npm version for the home pillar. */
-type SpireHeadMeta = {
-    buildStatus: string;
-    buildUrl: string;
-    latestCommit: LibvexMeta["latestCommit"];
-    latestVersion: string | null;
-};
-
 const NPM_PACKAGE_URL = "https://registry.npmjs.org/@vex-chat/libvex";
 const SPIRE_NPM_PACKAGE_URL = "https://registry.npmjs.org/@vex-chat/spire";
-/** Cached GitHub metadata via `api/gh/public/*` (see `api/lib/githubPublicCache.ts`). */
-const LIBVEX_GITHUB_API_URL = "/api/gh/public/libvex-github";
-const SPIRE_GITHUB_API_URL = "/api/gh/public/spire-github";
+/** Cached: `vex-protocol` monorepo CI + latest commit (see `api/gh/public/vex-protocol-github.ts`). */
+const VEX_PROTOCOL_GITHUB_API_URL = "/api/gh/public/vex-protocol-github";
 const LIBVEX_NPM_URL = "https://www.npmjs.com/package/@vex-chat/libvex";
 const SPIRE_NPM_URL = "https://www.npmjs.com/package/@vex-chat/spire";
-const LIBVEX_REPO_URL = "https://github.com/vex-protocol/libvex-js";
-const SPIRE_REPO_URL = "https://github.com/vex-protocol/spire";
+const VEX_PROTOCOL_REPO_URL = "https://github.com/vex-protocol/vex-protocol";
+/** `HEAD` tracks the repo default branch (currently `development`). */
+const LIBVEX_SOURCE_TREE_URL = `${VEX_PROTOCOL_REPO_URL}/tree/HEAD/packages/libvex`;
+const SPIRE_SOURCE_TREE_URL = `${VEX_PROTOCOL_REPO_URL}/tree/HEAD/apps/spire`;
 
 const PILLAR_HEADING_CLASS =
     "mt-2.5 text-base font-semibold tracking-tight text-zinc-50 sm:text-lg";
@@ -218,192 +207,196 @@ function BuildCommitPill(props: {
     );
 }
 
-const STACK_LINK_CLASS =
-    "inline-flex items-center gap-1 rounded-lg border border-white/15 bg-zinc-950/80 px-3 py-2 text-sm font-semibold text-zinc-100 transition hover:border-white/30 hover:bg-zinc-900/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/55 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950";
-
 const PILLAR_CARD_CLASS =
     "group relative flex h-full flex-col rounded-xl border border-white/10 bg-zinc-950/90 p-3.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] transition-colors hover:border-white/18 sm:p-4";
 
 function StackPillars(props: {
-    libvexMeta: LibvexMeta | null;
-    spireMeta: SpireHeadMeta | null;
+    libvexVersion: string | null;
+    spireVersion: string | null;
+    monorepo: MonorepoGithubMeta | null;
 }): JSX.Element {
-    const { libvexMeta, spireMeta } = props;
-    return (
-        <div className="mt-6 grid gap-3 sm:grid-cols-2">
-            <div
-                className={`${PILLAR_CARD_CLASS} ring-1 ring-[#00b887]/[0.12] hover:border-white/18`}
-            >
-                <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-[#00b887]/30 bg-[#00b887]/10 text-[#6ee7c5]">
-                    <PackageIcon className="h-5 w-5" aria-hidden />
-                </span>
-                <h2 className={PILLAR_HEADING_CLASS}>Client</h2>
-                <PillarPackageRepoLink
-                    href={LIBVEX_REPO_URL}
-                    packageLabel="@vex-chat/libvex"
-                    accent="client"
-                />
-                <p className="mt-2 flex-1 text-sm leading-snug text-zinc-400">
-                    Official TypeScript client for integrating Vex into apps and
-                    services.
-                </p>
-                {libvexMeta ? (
-                    <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1.5 border-t border-white/[0.06] pt-3">
-                        <VersionPill
-                            value={libvexMeta.latestVersion}
-                            href={LIBVEX_NPM_URL}
-                        />
-                        {libvexMeta.latestCommit ? (
-                            <BuildCommitPill
-                                status={libvexMeta.buildStatus}
-                                buildHref={libvexMeta.buildUrl}
-                                commit={libvexMeta.latestCommit}
-                                maxMessageLength={28}
-                            />
-                        ) : null}
-                    </div>
-                ) : null}
-            </div>
+    const { libvexVersion, spireVersion, monorepo } = props;
 
-            <div
-                className={`${PILLAR_CARD_CLASS} ring-1 ring-[#e70000]/[0.12] hover:border-white/18`}
+    return (
+        <section
+            className="mt-6"
+            aria-labelledby="vex-reference-stack-heading"
+        >
+            <h2
+                id="vex-reference-stack-heading"
+                className="text-base font-semibold tracking-tight text-zinc-200 sm:text-lg"
             >
-                <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-[#e70000]/30 bg-[#e70000]/10 text-[#fca5a5]">
-                    <ServerIcon className="h-5 w-5" aria-hidden />
+                Reference stack
+            </h2>
+            <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-zinc-400">
+                The npm packages are published from the{" "}
+                <a
+                    href={VEX_PROTOCOL_REPO_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-zinc-300 underline decoration-zinc-600 underline-offset-2 hover:text-white"
+                >
+                    vex-protocol
+                </a>{" "}
+                monorepo (
+                <span className="font-mono text-[0.8125rem] text-zinc-500">
+                    packages/libvex
                 </span>
-                <h2 className={PILLAR_HEADING_CLASS}>Server</h2>
-                <PillarPackageRepoLink
-                    href={SPIRE_REPO_URL}
-                    packageLabel="@vex-chat/spire"
-                    accent="server"
-                />
-                <p className="mt-2 flex-1 text-sm leading-snug text-zinc-400">
-                    Reference server that runs the protocol in production-shaped
-                    deployments.
-                </p>
-                {spireMeta &&
-                (spireMeta.latestVersion || spireMeta.latestCommit) ? (
-                    <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1.5 border-t border-white/[0.06] pt-3">
-                        {spireMeta.latestVersion ? (
+                ,{" "}
+                <span className="font-mono text-[0.8125rem] text-zinc-500">
+                    apps/spire
+                </span>
+                ).
+            </p>
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                <div
+                    className={`${PILLAR_CARD_CLASS} ring-1 ring-[#00b887]/[0.12] hover:border-white/18`}
+                >
+                    <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-[#00b887]/30 bg-[#00b887]/10 text-[#6ee7c5]">
+                        <PackageIcon className="h-5 w-5" aria-hidden />
+                    </span>
+                    <h3 className={PILLAR_HEADING_CLASS}>Client library</h3>
+                    <PillarPackageRepoLink
+                        href={LIBVEX_SOURCE_TREE_URL}
+                        packageLabel="@vex-chat/libvex"
+                        accent="client"
+                    />
+                    <p className="mt-1 font-mono text-[0.6875rem] leading-snug text-zinc-500">
+                        packages/libvex
+                    </p>
+                    <p className="mt-2 flex-1 text-sm leading-snug text-zinc-400">
+                        TypeScript client for apps, bots, and services that speak
+                        the protocol to your relay.
+                    </p>
+                    {libvexVersion &&
+                    libvexVersion.length > 0 &&
+                    libvexVersion !== "n/a" ? (
+                        <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1.5 border-t border-white/[0.06] pt-3">
                             <VersionPill
-                                value={spireMeta.latestVersion}
+                                value={libvexVersion}
+                                href={LIBVEX_NPM_URL}
+                            />
+                        </div>
+                    ) : null}
+                </div>
+
+                <div
+                    className={`${PILLAR_CARD_CLASS} ring-1 ring-[#e70000]/[0.12] hover:border-white/18`}
+                >
+                    <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-[#e70000]/30 bg-[#e70000]/10 text-[#fca5a5]">
+                        <ServerIcon className="h-5 w-5" aria-hidden />
+                    </span>
+                    <h3 className={PILLAR_HEADING_CLASS}>Reference server</h3>
+                    <PillarPackageRepoLink
+                        href={SPIRE_SOURCE_TREE_URL}
+                        packageLabel="@vex-chat/spire"
+                        accent="server"
+                    />
+                    <p className="mt-1 font-mono text-[0.6875rem] leading-snug text-zinc-500">
+                        apps/spire
+                    </p>
+                    <p className="mt-2 flex-1 text-sm leading-snug text-zinc-400">
+                        Reference relay and persistence layer you deploy alongside
+                        the client—same protocol, your keys, your policy surface.
+                    </p>
+                    {spireVersion &&
+                    spireVersion.length > 0 &&
+                    spireVersion !== "n/a" ? (
+                        <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1.5 border-t border-white/[0.06] pt-3">
+                            <VersionPill
+                                value={spireVersion}
                                 href={SPIRE_NPM_URL}
                             />
-                        ) : null}
-                        {spireMeta.latestCommit ? (
-                            <BuildCommitPill
-                                status={spireMeta.buildStatus}
-                                buildHref={spireMeta.buildUrl}
-                                commit={spireMeta.latestCommit}
-                                maxMessageLength={28}
-                            />
-                        ) : null}
-                    </div>
-                ) : null}
+                        </div>
+                    ) : null}
+                </div>
             </div>
-        </div>
-    );
-}
-
-function StackLinkRow(props: { statusHref?: string }): JSX.Element | null {
-    if (!props.statusHref) return null;
-    return (
-        <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2">
-            <a href={props.statusHref} className={STACK_LINK_CLASS}>
-                Status →
-            </a>
-        </div>
+            {monorepo?.latestCommit ? (
+                <div className="mt-4 rounded-xl border border-white/10 bg-zinc-950/90 px-3.5 py-3 sm:px-4">
+                    <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.12em] text-zinc-500">
+                        vex-protocol · latest commit
+                    </p>
+                    <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1.5">
+                        <BuildCommitPill
+                            status={monorepo.buildStatus}
+                            buildHref={monorepo.buildUrl}
+                            commit={monorepo.latestCommit}
+                            maxMessageLength={36}
+                        />
+                        <a
+                            href={VEX_PROTOCOL_REPO_URL}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-flex items-center gap-1 text-[0.6875rem] font-medium text-zinc-400 underline decoration-zinc-600 underline-offset-2 hover:text-zinc-200"
+                        >
+                            <GithubIcon
+                                className="h-3.5 w-3.5 shrink-0 opacity-70"
+                                aria-hidden
+                            />
+                            Repository
+                        </a>
+                    </div>
+                </div>
+            ) : null}
+        </section>
     );
 }
 
 export function HomePage(_: { path?: string; default?: boolean }): JSX.Element {
-    const [libvexMeta, setLibvexMeta] = useState<LibvexMeta | null>(null);
-    const [spireMeta, setSpireMeta] = useState<SpireHeadMeta | null>(null);
+    const [libvexVersion, setLibvexVersion] = useState<string | null>(null);
+    const [spireVersion, setSpireVersion] = useState<string | null>(null);
+    const [monorepoMeta, setMonorepoMeta] = useState<MonorepoGithubMeta | null>(
+        null
+    );
 
     useEffect(() => {
         let cancelled = false;
 
         async function loadStackHeads() {
             try {
-                const [
-                    npmResponse,
-                    libvexGhResponse,
-                    spireGhResponse,
-                    spireNpmResponse,
-                ] = await Promise.all([
-                    fetch(NPM_PACKAGE_URL),
-                    fetch(LIBVEX_GITHUB_API_URL),
-                    fetch(SPIRE_GITHUB_API_URL),
-                    fetch(SPIRE_NPM_PACKAGE_URL),
-                ]);
+                const [npmResponse, spireNpmResponse, monorepoGhResponse] =
+                    await Promise.all([
+                        fetch(NPM_PACKAGE_URL),
+                        fetch(SPIRE_NPM_PACKAGE_URL),
+                        fetch(VEX_PROTOCOL_GITHUB_API_URL),
+                    ]);
 
-                let spireLatestVersion: string | null = null;
-                if (!cancelled && spireNpmResponse.ok) {
+                if (!cancelled && npmResponse.ok) {
                     try {
-                        const spireNpmJson = (await spireNpmResponse.json()) as NpmPackageResponse;
+                        const npmData =
+                            (await npmResponse.json()) as NpmPackageResponse;
                         const v =
-                            spireNpmJson["dist-tags"]?.latest?.trim() ?? "";
-                        if (v.length > 0 && v !== "n/a") {
-                            spireLatestVersion = v;
+                            npmData["dist-tags"]?.latest?.trim() ?? "n/a";
+                        if (v.length > 0) {
+                            setLibvexVersion(v);
                         }
                     } catch {
                         // ignore npm parse errors
                     }
                 }
 
-                if (!cancelled && npmResponse.ok && libvexGhResponse.ok) {
-                    const npmData = (await npmResponse.json()) as NpmPackageResponse;
-                    const ghJson = (await libvexGhResponse.json()) as {
-                        runs: GitHubWorkflowRunsResponse;
-                        commits: GitHubCommitApiResponse[];
-                    };
-                    const runsData = ghJson.runs;
-                    const commitsData = ghJson.commits;
-                    const latestRun = runsData.workflow_runs?.[0];
-                    const latestCommit = commitsData[0];
-                    const rcVersion = npmData["dist-tags"]?.rc ?? "n/a";
-                    const latestVersion = npmData["dist-tags"]?.latest ?? "n/a";
-                    const publishedAt = npmData.time?.[rcVersion] ?? "";
-
-                    setLibvexMeta({
-                        rcVersion,
-                        latestVersion,
-                        publishedAt,
-                        buildStatus: latestRun
-                            ? `${latestRun.status}${
-                                  latestRun.conclusion
-                                      ? ` / ${latestRun.conclusion}`
-                                      : ""
-                              }`
-                            : "unknown",
-                        buildUpdatedAt: latestRun?.updated_at ?? "",
-                        buildUrl: latestRun?.html_url ?? "",
-                        latestCommit: latestCommit
-                            ? {
-                                  sha: latestCommit.sha.slice(0, 12),
-                                  message: latestCommit.commit.message,
-                                  date: latestCommit.commit.author.date,
-                                  url: latestCommit.html_url,
-                                  authorName: latestCommit.commit.author.name,
-                                  authorLogin:
-                                      latestCommit.author?.login ?? null,
-                                  authorAvatarUrl:
-                                      latestCommit.author?.avatar_url ?? null,
-                                  authorUrl:
-                                      latestCommit.author?.html_url ?? null,
-                              }
-                            : null,
-                    });
+                if (!cancelled && spireNpmResponse.ok) {
+                    try {
+                        const spireNpmJson =
+                            (await spireNpmResponse.json()) as NpmPackageResponse;
+                        const v =
+                            spireNpmJson["dist-tags"]?.latest?.trim() ?? "";
+                        if (v.length > 0 && v !== "n/a") {
+                            setSpireVersion(v);
+                        }
+                    } catch {
+                        // ignore npm parse errors
+                    }
                 }
 
-                if (!cancelled && spireGhResponse.ok) {
-                    const ghJson = (await spireGhResponse.json()) as {
+                if (!cancelled && monorepoGhResponse.ok) {
+                    const ghJson = (await monorepoGhResponse.json()) as {
                         runs: GitHubWorkflowRunsResponse;
                         commits: GitHubCommitApiResponse[];
                     };
                     const latestRun = ghJson.runs.workflow_runs?.[0];
                     const latestCommit = ghJson.commits[0];
-                    setSpireMeta({
+                    setMonorepoMeta({
                         buildStatus: latestRun
                             ? `${latestRun.status}${
                                   latestRun.conclusion
@@ -427,7 +420,6 @@ export function HomePage(_: { path?: string; default?: boolean }): JSX.Element {
                                       latestCommit.author?.html_url ?? null,
                               }
                             : null,
-                        latestVersion: spireLatestVersion,
                     });
                 }
             } catch {
@@ -455,7 +447,11 @@ export function HomePage(_: { path?: string; default?: boolean }): JSX.Element {
                 environments where privacy and ephemerality are critical
                 concerns.
             </p>
-            <StackPillars libvexMeta={libvexMeta} spireMeta={spireMeta} />
+            <StackPillars
+                libvexVersion={libvexVersion}
+                spireVersion={spireVersion}
+                monorepo={monorepoMeta}
+            />
         </RoutePanel>
     );
 }

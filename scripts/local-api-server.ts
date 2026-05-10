@@ -19,6 +19,7 @@ import callback from "../api/gh/callback";
 import libvexGithub from "../api/gh/public/libvex-github";
 import privacyCommits from "../api/gh/public/privacy-commits";
 import spireGithub from "../api/gh/public/spire-github";
+import vexProtocolGithub from "../api/gh/public/vex-protocol-github";
 import login from "../api/gh/login";
 import logout from "../api/gh/logout";
 import session from "../api/gh/session";
@@ -67,6 +68,11 @@ const routes: Array<{ method: string; path: string; handler: Handler }> = [
         method: "GET",
         path: "/api/gh/public/privacy-commits",
         handler: privacyCommits,
+    },
+    {
+        method: "GET",
+        path: "/api/gh/public/vex-protocol-github",
+        handler: vexProtocolGithub,
     },
 ];
 
