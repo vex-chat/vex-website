@@ -443,9 +443,8 @@ export function HomePage(_: { path?: string; default?: boolean }): JSX.Element {
             </p>
             <p className="hero-lede mt-4 max-w-3xl text-base leading-7 text-zinc-300 sm:text-lg">
                 Vex is an open source end-to-end encrypted messaging protocol.
-                Our software is designed to facilitate communications in forward
-                environments where privacy and ephemerality are critical
-                concerns.
+                Our software is designed to be easy to deploy and host yourself, but provide a high
+                level of security and privacy. Don't trust anybody with regards to your privacy: trust yourself.
             </p>
             <StackPillars
                 libvexVersion={libvexVersion}
