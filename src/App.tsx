@@ -27,6 +27,10 @@ export function App(): JSX.Element {
     const [StatusPage, setStatusPage] = useState<ComponentType<{
         path?: string;
     }> | null>(null);
+    const [InviteRedirectPage, setInviteRedirectPage] = useState<ComponentType<{
+        path?: string;
+    }> | null>(null);
+    const isInviteRoute = currentPath.startsWith("/invite/");
 
     useEffect(() => {
         if (
@@ -35,7 +39,8 @@ export function App(): JSX.Element {
             currentPath === "/licensing" ||
             currentPath === "/cla" ||
             currentPath === "/cla-admin" ||
-            currentPath === "/status"
+            currentPath === "/status" ||
+            isInviteRoute
         )
             return;
         let cancelled = false;
@@ -47,7 +52,7 @@ export function App(): JSX.Element {
         return () => {
             cancelled = true;
         };
-    }, [HomePage, currentPath]);
+    }, [HomePage, currentPath, isInviteRoute]);
 
     useEffect(() => {
         if (PrivacyPolicyPage || currentPath !== "/privacy-policy") return;
@@ -114,6 +119,19 @@ export function App(): JSX.Element {
         };
     }, [StatusPage, currentPath]);
 
+    useEffect(() => {
+        if (InviteRedirectPage || !isInviteRoute) return;
+        let cancelled = false;
+        void import("./pages/InviteRedirectPage").then((module) => {
+            if (!cancelled) {
+                setInviteRedirectPage(() => module.InviteRedirectPage);
+            }
+        });
+        return () => {
+            cancelled = true;
+        };
+    }, [InviteRedirectPage, isInviteRoute]);
+
     return (
         <ClaSessionProvider>
             <div className="min-h-screen bg-zinc-950 text-zinc-100">
@@ -148,6 +166,12 @@ export function App(): JSX.Element {
                             <StatusPage />
                         ) : (
                             <StatusPageLoading />
+                        )
+                    ) : isInviteRoute ? (
+                        InviteRedirectPage ? (
+                            <InviteRedirectPage path={currentPath} />
+                        ) : (
+                            <InviteRedirectLoading />
                         )
                     ) : HomePage ? (
                         <HomePage />
@@ -222,6 +246,17 @@ function StatusPageLoading(): JSX.Element {
             <div className="inline-flex items-center gap-2.5 text-zinc-300">
                 <CrosshairSpinner className="text-zinc-200" />
                 <span>Loading status</span>
+            </div>
+        </RoutePanel>
+    );
+}
+
+function InviteRedirectLoading(): JSX.Element {
+    return (
+        <RoutePanel splotch="home">
+            <div className="inline-flex items-center gap-2.5 text-zinc-300">
+                <CrosshairSpinner className="text-zinc-200" />
+                <span>Opening invite</span>
             </div>
         </RoutePanel>
     );
